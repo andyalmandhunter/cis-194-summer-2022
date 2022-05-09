@@ -22,7 +22,18 @@ toDigitsRev n
 
 -- #2
 doubleEveryOther :: [Integer] -> [Integer]
-doubleEveryOther = undefined
+doubleEveryOther []       = []
+doubleEveryOther [n]      = [n]
+doubleEveryOther (n:m:ns) = n : (2*m) : doubleEveryOther ns
+
+-- [1, 2, 3, 4] []
+-- [2, 3, 4] [1]
+-- [3, 4] [2, 1]
+-- [4] [3, 2, 1]
+-- [4, 3, 2, 1]
+
+-- [2, 1] [6, 4]
+-- [] [2, 2, 6, 4]
 
 -- #3
 sumDigits :: [Integer] -> Integer
