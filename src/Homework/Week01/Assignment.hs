@@ -9,11 +9,9 @@ toDigits :: Integer -> [Integer]
 --   | otherwise = toDigits (div n 10) ++ [mod n 10]
 
 toDigits n = go n []
-  where go m acc
-          | m < 1     = []
-          | m < 10    = m : acc
-          | otherwise = go (div m 10) (mod m 10 : acc)
--- ^^ possible to express as a fold?
+  where go m acc | m < 1     = acc
+                 | m < 10    = m : acc
+                 | otherwise = go (div m 10) (mod m 10 : acc)
 
 -- #1b
 toDigitsRev :: Integer -> [Integer]

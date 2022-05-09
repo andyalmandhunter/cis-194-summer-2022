@@ -38,11 +38,9 @@ spec = do
 
   describe "doubleEveryOther" $ do
     it "should return an empty list given an empty list" $ do
-      pending
       doubleEveryOther [] `shouldBe` []
 
     it "should double every other int in the list, from right to left" $ do
-      pending
       doubleEveryOther [8,7,6,5] `shouldBe`[16,7,12,5]
       doubleEveryOther [1,2,3] `shouldBe` [1,4,3]
 
