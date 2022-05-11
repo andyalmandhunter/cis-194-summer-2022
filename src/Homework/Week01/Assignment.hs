@@ -24,7 +24,7 @@ rev :: [Integer] -> [Integer]
 rev = foldl (\acc n -> n:acc) []
 
 doubleEveryOther :: [Integer] -> [Integer]
-doubleEveryOther ns = rev (doubleEveryOtherRev (rev ns))
+doubleEveryOther = rev . doubleEveryOtherRev . rev
 
 -- #3
 toDigitsList :: [Integer] -> [Integer]
