@@ -1,13 +1,13 @@
 module Homework.Week01.Assignment where
 
 -- #1a
-toDigits :: Integer -> [Integer]
 
 -- toDigits n
 --   | n < 1     = []
 --   | n < 10    = [n]
 --   | otherwise = toDigits (div n 10) ++ [mod n 10]
 
+toDigits :: Integer -> [Integer]
 toDigits n = go n []
   where go m acc | m < 1     = acc
                  | m < 10    = m : acc
@@ -21,19 +21,21 @@ toDigitsRev n
   | otherwise = mod n 10 : toDigitsRev (div n 10)
 
 -- #2
+doubleEveryOtherRev :: [Integer] -> [Integer]
+doubleEveryOtherRev []       = []
+doubleEveryOtherRev [n]      = [n]
+doubleEveryOtherRev (n:m:ns) = n : (2*m) : doubleEveryOtherRev ns
+
+-- revDigits ns = go ns []
+--   where
+--     go [] acc = acc
+--     go (m:ms) acc = go ms (m:acc)
+
+revDigits :: [Integer] -> [Integer]
+revDigits ns = foldl (\acc n -> n:acc) [] ns
+
 doubleEveryOther :: [Integer] -> [Integer]
-doubleEveryOther []       = []
-doubleEveryOther [n]      = [n]
-doubleEveryOther (n:m:ns) = n : (2*m) : doubleEveryOther ns
-
--- [1, 2, 3, 4] []
--- [2, 3, 4] [1]
--- [3, 4] [2, 1]
--- [4] [3, 2, 1]
--- [4, 3, 2, 1]
-
--- [2, 1] [6, 4]
--- [] [2, 2, 6, 4]
+doubleEveryOther ns = revDigits (doubleEveryOtherRev (revDigits ns))
 
 -- #3
 sumDigits :: [Integer] -> Integer
