@@ -27,8 +27,11 @@ doubleEveryOther :: [Integer] -> [Integer]
 doubleEveryOther ns = rev (doubleEveryOtherRev (rev ns))
 
 -- #3
+singleDigits :: [Integer] -> [Integer]
+singleDigits ns = foldr (\n acc -> toDigits n ++ acc) [] ns
+
 sumDigits :: [Integer] -> Integer
-sumDigits = undefined
+sumDigits ns = foldl (+) 0 (singleDigits ns)
 
 -- #4
 validate :: Integer -> Bool
