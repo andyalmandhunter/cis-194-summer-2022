@@ -46,11 +46,9 @@ spec = do
 
   describe "sumDigits" $ do
     it "should return zero for an empty list" $ do
-      pending
       sumDigits [] `shouldBe` 0
 
     it "should sum all digits in the list" $ do
-      pending
       sumDigits [16,7,12,5] `shouldBe` 22
       sumDigits [18,7,33,5] `shouldBe` 27
 
