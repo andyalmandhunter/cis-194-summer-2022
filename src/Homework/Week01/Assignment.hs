@@ -35,7 +35,8 @@ sumDigits = foldl (+) 0 . toDigitsList
 
 -- #4
 validate :: Integer -> Bool
-validate n = mod (sumDigits (doubleEveryOther (toDigits n))) 10 == 0
+  -- TODO: Rewrite with let for readability
+validate n = mod ((sumDigits . doubleEveryOther . toDigits) n) 10 == 0
 
 -- #5
 type Peg = String
