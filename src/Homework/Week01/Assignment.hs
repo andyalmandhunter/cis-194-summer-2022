@@ -20,11 +20,11 @@ doubleEveryOtherRev []       = []
 doubleEveryOtherRev [n]      = [n]
 doubleEveryOtherRev (n:m:ns) = n : (2*m) : doubleEveryOtherRev ns
 
-revDigits :: [Integer] -> [Integer]
-revDigits ns = foldl (\acc n -> n:acc) [] ns
+rev :: [Integer] -> [Integer]
+rev = foldl (\acc n -> n:acc) []
 
 doubleEveryOther :: [Integer] -> [Integer]
-doubleEveryOther ns = revDigits (doubleEveryOtherRev (revDigits ns))
+doubleEveryOther ns = rev (doubleEveryOtherRev (rev ns))
 
 -- #3
 sumDigits :: [Integer] -> Integer
