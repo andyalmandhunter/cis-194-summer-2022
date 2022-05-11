@@ -28,10 +28,10 @@ doubleEveryOther = rev . doubleEveryOtherRev . rev
 
 -- #3
 toDigitsList :: [Integer] -> [Integer]
-toDigitsList = foldr (\n acc -> toDigits n ++ acc) []
+toDigitsList = foldl (\acc n -> acc ++ toDigits n) []
 
 sumDigits :: [Integer] -> Integer
-sumDigits ns = foldl (+) 0 (toDigitsList ns)
+sumDigits = foldl (+) 0 . toDigitsList
 
 -- #4
 validate :: Integer -> Bool
