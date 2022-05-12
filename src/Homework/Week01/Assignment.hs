@@ -34,8 +34,8 @@ sumDigits = foldl (+) 0 . toDigitsList
 -- #4
 validate :: Integer -> Bool
 validate n =
-  let sumDoubledDigits = sumDigits . doubleEveryOther . toDigits
-  in mod (sumDoubledDigits n) 10 == 0
+  let go = sumDigits . doubleEveryOther . toDigits
+  in mod (go n) 10 == 0
 
 -- #5
 type Peg = String
