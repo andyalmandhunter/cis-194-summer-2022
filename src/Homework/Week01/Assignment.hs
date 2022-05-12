@@ -2,10 +2,12 @@ module Homework.Week01.Assignment where
 
 -- #1a
 toDigits :: Integer -> [Integer]
-toDigits n = go n []
-  where go m acc | m < 1     = acc
-                 | m < 10    = m : acc
-                 | otherwise = go (div m 10) (mod m 10 : acc)
+toDigits n =
+  let loop m acc
+        | m < 1     = acc
+        | m < 10    = m : acc
+        | otherwise = loop (div m 10) (mod m 10 : acc)
+  in loop n []
 
 -- #1b
 toDigitsRev :: Integer -> [Integer]
