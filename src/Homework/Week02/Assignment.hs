@@ -15,11 +15,16 @@ import Homework.Week02.Log
 
 -- #1a
 parseMessage :: String -> LogMessage
-parseMessage = undefined
+parseMessage =
+  let go ("I":t:m) = LogMessage Info (read t :: Int) (unwords m)
+      go ("W":t:m) = LogMessage Warning (read t :: Int) (unwords m)
+      go ("E":s:t:m) = LogMessage (Error (read s :: Int)) (read t :: Int) (unwords m)
+      go m = Unknown (unwords m)
+  in go . words
 
 -- #1b
 parse :: String -> [LogMessage]
-parse = undefined
+parse = (map parseMessage) . lines
 
 -- #2
 insert :: LogMessage -> MessageTree -> MessageTree
