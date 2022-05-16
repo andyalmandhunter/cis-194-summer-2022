@@ -28,16 +28,21 @@ parse = (map parseMessage) . lines
 
 -- #2
 insert :: LogMessage -> MessageTree -> MessageTree
-insert = undefined
+insert (Unknown _) mt = mt
+insert l Leaf = Node Leaf l Leaf
+insert l@(LogMessage _ t _) (Node a ll@(LogMessage _ tt _) b)
+  | t < tt    = Node (insert l a) ll b
+  | otherwise = Node a ll (insert l b)
 
 -- #3
 build :: [LogMessage] -> MessageTree
-build = undefined
+build = foldl (flip insert) Leaf
 
 -- #4
 inOrder :: MessageTree -> [LogMessage]
-inOrder = undefined
+inOrder Leaf = []
+inOrder (Node a l b) = (inOrder a) ++ [l] ++ (inOrder b)
 
 -- #5
 whatWentWrong :: [LogMessage] -> [String]
-whatWentWrong = undefined
+whatWentWrong ms = [m | LogMessage (Error s) _ m <- inOrder (build ms), s >= 50]
