@@ -15,17 +15,22 @@ import Text.Read
 import Homework.Week02.Log
 
 -- #1a
-newInfo :: Maybe Int -> String -> [String] -> LogMessage
-newInfo (Just t) _ m = LogMessage Info t (unwords m)
-newInfo Nothing tStr m = Unknown (unwords ("I":tStr:m))
+newLogMessage :: Maybe MessageType -> Maybe Int -> [String] -> String -> LogMessage
+newLogMessage _ Nothing _ msg        = Unknown msg
+newLogMessage Nothing _ _ msg        = Unknown msg
+newLogMessage (Just mt) (Just t) m _ = LogMessage mt t (unwords m)
+
+newError :: Maybe Int -> Maybe MessageType
+newError Nothing  = Nothing
+newError (Just n) = Just (Error n)
 
 parseMessage :: String -> LogMessage
-parseMessage =
-  let go ("I":t:m)   = newInfo (readMaybe t :: Maybe Int) t m
-      go ("W":t:m)   = LogMessage Warning (read t :: Int) (unwords m)
-      go ("E":s:t:m) = LogMessage (Error (read s :: Int)) (read t :: Int) (unwords m)
-      go m           = Unknown (unwords m)
-  in go . words
+parseMessage msg =
+  let go ("I":t:m)   = newLogMessage (Just Info) (readMaybe t :: Maybe Int) m msg
+      go ("W":t:m)   = newLogMessage (Just Warning) (readMaybe t :: Maybe Int) m msg
+      go ("E":s:t:m) = newLogMessage (newError (readMaybe s :: Maybe Int)) (readMaybe t :: Maybe Int) m msg
+      go _           = Unknown msg
+  in go (words msg)
 
 -- #1b
 parse :: String -> [LogMessage]

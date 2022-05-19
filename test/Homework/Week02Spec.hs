@@ -19,11 +19,14 @@ spec = do
     it "should parse info lines" $ do
       parseMessage "I 29 la la la" `shouldBe` LogMessage Info 29 "la la la"
 
-    it "should parse incorrectly formatted info lines" $ do
-      parseMessage "I am not correctly formatted" `shouldBe` Unknown "I am not correctly formatted"
-
     it "should parse unknown lines" $ do
       parseMessage "This is not in the right format" `shouldBe`  Unknown "This is not in the right format"
+
+    it "should parse incorectly formatted error lines" $ do
+      parseMessage "E is the fifth letter of the alphabet" `shouldBe` Unknown "E is the fifth letter of the alphabet"
+
+    it "should parse incorrectly formatted info lines" $ do
+      parseMessage "I am not correctly formatted" `shouldBe` Unknown "I am not correctly formatted"
 
   describe "parse" $ do
     it "should take a multi-line string and parse out the LogMessages" $ do
