@@ -11,12 +11,17 @@ module Homework.Week02.Assignment (
   TimeStamp
 ) where
 
+import Text.Read
 import Homework.Week02.Log
 
 -- #1a
+newInfo :: Maybe Int -> String -> [String] -> LogMessage
+newInfo (Just t) _ m = LogMessage Info t (unwords m)
+newInfo Nothing tStr m = Unknown (unwords ("I":tStr:m))
+
 parseMessage :: String -> LogMessage
 parseMessage =
-  let go ("I":t:m)   = LogMessage Info (read t :: Int) (unwords m)
+  let go ("I":t:m)   = newInfo (readMaybe t :: Maybe Int) t m
       go ("W":t:m)   = LogMessage Warning (read t :: Int) (unwords m)
       go ("E":s:t:m) = LogMessage (Error (read s :: Int)) (read t :: Int) (unwords m)
       go m           = Unknown (unwords m)
