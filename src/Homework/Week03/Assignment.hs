@@ -6,10 +6,7 @@ module Homework.Week03.Assignment (
 
 -- #1
 skip :: Int -> [a] -> [a]
-skip n =
-  let f [] = []
-      f (b:bs) = b : (f (drop (n-1) bs))
-  in f . (drop (n-1))
+skip n = map snd . filter ((==0) . flip mod n . fst) . zip [1..]
 
 skips :: [a] -> [[a]]
 skips as = map (flip skip as) [1..(length as)]
