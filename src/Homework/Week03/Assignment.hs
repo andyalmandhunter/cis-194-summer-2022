@@ -27,11 +27,11 @@ localMaxima =
 count :: [Integer] -> Integer -> Int
 count ns n = (length . filter (==n)) ns
 
-row :: Int -> [Integer] -> [Bool]
-row n ms = map ((>=n) . count ms) [0..9]
+row :: [Integer] -> Int -> [Bool]
+row ns n = map ((>=n) . count ns) [0..9]
 
 rows :: [Integer] -> [[Bool]]
-rows ns = takeWhile (any id) $ map ((flip row) ns) [1..]
+rows ns = takeWhile (any id) $ map (row ns) [1..]
 
 histRow :: [Bool] -> String
 histRow =
