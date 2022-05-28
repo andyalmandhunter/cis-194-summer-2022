@@ -19,6 +19,8 @@ module Homework.Week04.Assignment (
   BST(..)
 ) where
 
+import Data.Char
+import Data.Maybe
 import Homework.Week04.BST
 
 -- #1
@@ -108,9 +110,14 @@ insertBST cmp x (Node l y r) =
       go _  x' y' l' r' = Node l'                    y' (insertBST cmp x' r')
   in go (cmp x y) x y l r
 
+-- Utility
+safeHead :: [a] -> Maybe a
+safeHead []    = Nothing
+safeHead (x:_) = Just x
+
 -- #14
 allCaps :: [String] -> Bool
-allCaps = undefined
+allCaps = all (fromMaybe False . fmap isUpper . safeHead)
 
 -- #15
 dropTrailingWhitespace :: String -> String

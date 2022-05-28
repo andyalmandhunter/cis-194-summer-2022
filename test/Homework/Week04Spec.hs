@@ -19,7 +19,6 @@ spec = do
 
   describe "allCaps" $ do
     it "checks to see if a list of strings contains only capitalized words" $ do
-      pending
       allCaps ["Hi", "There"] `shouldBe` True
       allCaps ["HI", "THERE"] `shouldBe` True
       allCaps [] `shouldBe` True
