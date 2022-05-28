@@ -102,7 +102,11 @@ ex12 = id
 
 -- #13
 insertBST :: (a -> a -> Ordering) -> a -> BST a -> BST a
-insertBST = undefined
+insertBST _   x Leaf         = Node Leaf x Leaf
+insertBST cmp x (Node l y r) =
+  let go LT x' y' l' r' = Node (insertBST cmp x' l') y' r'
+      go _  x' y' l' r' = Node l'                    y' (insertBST cmp x' r')
+  in go (cmp x y) x y l r
 
 -- #14
 allCaps :: [String] -> Bool
