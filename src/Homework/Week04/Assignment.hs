@@ -21,6 +21,7 @@ module Homework.Week04.Assignment (
 
 import Data.Char
 import Data.Maybe
+import Data.List
 import Homework.Week04.BST
 
 -- #1
@@ -116,12 +117,12 @@ allCaps = all (fromMaybe False . fmap isUpper . listToMaybe)
 
 -- #15
 dropTrailingWhitespace :: String -> String
-dropTrailingWhitespace = undefined
+dropTrailingWhitespace = dropWhileEnd isSpace
 
 -- #16
 firstLetters :: [String] -> [Char]
-firstLetters = undefined
+firstLetters = mapMaybe listToMaybe
 
 -- #17
 asList :: [String] -> String
-asList = undefined
+asList x = "[" ++ (intercalate "," . filter (not . null)) x ++ "]"
