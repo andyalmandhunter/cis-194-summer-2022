@@ -110,14 +110,9 @@ insertBST cmp x (Node l y r) =
       go _  x' y' l' r' = Node l'                    y' (insertBST cmp x' r')
   in go (cmp x y) x y l r
 
--- Utility
-safeHead :: [a] -> Maybe a
-safeHead []    = Nothing
-safeHead (x:_) = Just x
-
 -- #14
 allCaps :: [String] -> Bool
-allCaps = all (fromMaybe False . fmap isUpper . safeHead)
+allCaps = all (fromMaybe False . fmap isUpper . listToMaybe)
 
 -- #15
 dropTrailingWhitespace :: String -> String
