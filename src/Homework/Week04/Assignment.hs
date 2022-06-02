@@ -84,12 +84,12 @@ ex9 = map
 -- #10
 ex10 :: Maybe a -> a
 ex10 = error "impossible"
--- It's impossible to implement as a total function. A partial function is
+-- This is impossible to implement as a total function. A partial function is
 -- possible:
 --
 --  ex10 (Just a) = a
 --
--- But if the first argument is `Nothing` it's impossible to return an a.
+-- But if the first argument is `Nothing`, we have no way to generate an a.
 
 -- #11
 ex11 :: a -> Maybe a
@@ -125,4 +125,4 @@ firstLetters = mapMaybe listToMaybe
 
 -- #17
 asList :: [String] -> String
-asList x = "[" ++ (intercalate "," . filter (not . null)) x ++ "]"
+asList x = "[" ++ (intercalate "," $ filter (not . null) x) ++ "]"
