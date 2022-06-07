@@ -1,16 +1,16 @@
-module Homework.Week08.Assignment (
-  first,
-  abParser,
-  abParser_,
-  intPair,
-  intOrUppercase
-) where
+module Homework.Week08.Assignment
+  ( first
+  , abParser
+  , abParser_
+  , intPair
+  , intOrUppercase
+  ) where
 
-import Homework.Week08.AParser
-import Control.Applicative
+import           Control.Applicative
+import           Homework.Week08.AParser
 
 -- #1
-first :: (a -> b) -> (a,c) -> (b,c)
+first :: (a -> b) -> (a, c) -> (b, c)
 first = undefined
 
 instance Functor Parser where

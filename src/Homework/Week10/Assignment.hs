@@ -1,6 +1,8 @@
 module Homework.Week10.Assignment where
 
-import Homework.Week10.Support (Tree(..), labelTree)
+import           Homework.Week10.Support        ( Tree(..)
+                                                , labelTree
+                                                )
 
 -- Exercise 1
 

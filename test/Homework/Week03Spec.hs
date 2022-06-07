@@ -1,11 +1,11 @@
-module Homework.Week03Spec (
-  main,
-  spec
-) where
+module Homework.Week03Spec
+  ( main
+  , spec
+  ) where
 
-import Test.Hspec
+import           Test.Hspec
 
-import Homework.Week03.Assignment
+import           Homework.Week03.Assignment
 
 main :: IO ()
 main = hspec spec
@@ -34,21 +34,27 @@ spec = do
       localMaxima [1, 2, 3, 4, 5] `shouldBe` []
 
   describe "histogram" $ do
-    it "takes as input a list of Integers between 0 and 9 (inclusive) and \
+    it
+        "takes as input a list of Integers between 0 and 9 (inclusive) and \
         \ outputs a vertical histogram showing how many of each number were in \
-        \ the input list" $ do
-      pending
+        \ the input list"
+      $ do
+          pending
 
-      let hs1 = "\
+          let
+            hs1
+              = "\
                  \ *        \n\
                  \ *        \n\
                  \ *   *    \n\
                  \==========\n\
                  \0123456789\n"
 
-      histogram [1, 1, 1, 5] `shouldBe` hs1
+          histogram [1, 1, 1, 5] `shouldBe` hs1
 
-      let hs2 = "\
+          let
+            hs2
+              = "\
                  \    *     \n\
                  \    *     \n\
                  \    * *   \n\
@@ -56,4 +62,4 @@ spec = do
                  \==========\n\
                  \0123456789\n"
 
-      histogram [1, 4, 5, 4, 6, 6, 3, 4, 2, 4, 9] `shouldBe` hs2
+          histogram [1, 4, 5, 4, 6, 6, 3, 4, 2, 4, 9] `shouldBe` hs2

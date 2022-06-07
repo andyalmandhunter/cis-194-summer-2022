@@ -1,14 +1,14 @@
-module Homework.Week11Spec (
-  main,
-  spec
-) where
+module Homework.Week11Spec
+  ( main
+  , spec
+  ) where
 
-import Test.Hspec
-import Test.Hspec.QuickCheck (prop)
-import Test.QuickCheck
+import           Test.Hspec
+import           Test.Hspec.QuickCheck          ( prop )
+import           Test.QuickCheck
 
-import Control.Monad.Random
-import Homework.Week11.Assignment
+import           Control.Monad.Random
+import           Homework.Week11.Assignment
 
 instance Arbitrary Battlefield where
   arbitrary = sized $ \size -> do
@@ -21,26 +21,30 @@ prop_subtractsTwoFromBattle field = do
   newField <- evalRandIO (battle (field :: Battlefield))
   let totalUnitsLeft = attackers newField + defenders newField
   checkTotalUnitsLeft totalUnitsLeft
-  where attackerArmy = attackers field
-        defenderArmy = defenders field
-        checkTotalUnitsLeft unitsLeft
-          -- For large armies, two units will always die.
-          | attackerArmy >= 3 && defenderArmy >= 2 =
-            unitsLeft `shouldBe` attackerArmy + defenderArmy - 2
-          -- For the minimum armies, one unit will always die.
-          | attackerArmy == 2 && defenderArmy == 1 =
-            unitsLeft `shouldBe` 2
-          -- For battles like Battlefield 3 1, one OR two armies could die.
-          | otherwise = return ()
+ where
+  attackerArmy = attackers field
+  defenderArmy = defenders field
+  checkTotalUnitsLeft unitsLeft
+    |
+    -- For large armies, two units will always die.
+      attackerArmy >= 3 && defenderArmy >= 2
+    = unitsLeft `shouldBe` attackerArmy + defenderArmy - 2
+    |
+    -- For the minimum armies, one unit will always die.
+      attackerArmy == 2 && defenderArmy == 1
+    = unitsLeft `shouldBe` 2
+    |
+    -- For battles like Battlefield 3 1, one OR two armies could die.
+      otherwise
+    = return ()
 
 prop_findsWinner :: Battlefield -> IO ()
 prop_findsWinner field = do
   newField <- evalRandIO (invade field)
-  newField `shouldSatisfy` \field ->
-    case field of
-      Battlefield _ 0 -> True
-      Battlefield 1 _ -> True
-      _ -> False
+  newField `shouldSatisfy` \field -> case field of
+    Battlefield _ 0 -> True
+    Battlefield 1 _ -> True
+    _               -> False
 
 main :: IO ()
 main = hspec spec

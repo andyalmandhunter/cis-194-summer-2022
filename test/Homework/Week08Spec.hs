@@ -1,16 +1,18 @@
-module Homework.Week08Spec (
-  main,
-  spec
-) where
+module Homework.Week08Spec
+  ( main
+  , spec
+  ) where
 
-import Test.Hspec
-import Test.QuickCheck
+import           Test.Hspec
+import           Test.QuickCheck
 
-import Homework.Week08.AParser
-import Homework.Week08.Assignment
+import           Homework.Week08.AParser
+import           Homework.Week08.Assignment
 
-import Control.Applicative
-import Data.Char (isNumber, isUpper)
+import           Control.Applicative
+import           Data.Char                      ( isNumber
+                                                , isUpper
+                                                )
 
 main :: IO ()
 main = hspec spec
@@ -21,9 +23,9 @@ spec = do
     describe "fmap" $ do
       it "applies a function to the result of a parser" $ do
         pending
-        let p = fmap (+1) posInt
+        let p = fmap (+ 1) posInt
         runParser p "41" `shouldBe` Just (42, "")
-        runParser p "x"  `shouldBe` Nothing
+        runParser p "x" `shouldBe` Nothing
 
   describe "Applicative Parser" $ do
     describe "pure" $ do
@@ -34,7 +36,7 @@ spec = do
     describe "<*>" $ do
       it "applies a function from a parser to the result of a parser" $ do
         pending
-        let p1 = pure (+1) <*> posInt
+        let p1 = pure (+ 1) <*> posInt
         runParser p1 "41" `shouldBe` Just (42, "")
 
         let p2 = (+) <$> posInt <* char ' ' <*> posInt

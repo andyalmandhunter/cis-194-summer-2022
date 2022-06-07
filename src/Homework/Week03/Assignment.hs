@@ -1,8 +1,8 @@
-module Homework.Week03.Assignment (
-  skips,
-  localMaxima,
-  histogram
-) where
+module Homework.Week03.Assignment
+  ( skips
+  , localMaxima
+  , histogram
+  ) where
 
 -- #1
 skips :: [a] -> [[a]]

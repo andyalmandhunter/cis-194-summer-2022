@@ -1,21 +1,21 @@
 {-# LANGUAGE FlexibleInstances, InstanceSigs #-}
 
-module Homework.Week07.JoinList (
-  tag,
-  indexJ,
-  (+++),
-  (!!?),
-  jlToList,
-  dropJ,
-  takeJ,
-  scoreLine,
-  Sized(..),
-  JoinList(..)
-) where
+module Homework.Week07.JoinList
+  ( tag
+  , indexJ
+  , (+++)
+  , (!!?)
+  , jlToList
+  , dropJ
+  , takeJ
+  , scoreLine
+  , Sized(..)
+  , JoinList(..)
+  ) where
 
-import Homework.Week07.Buffer
-import Homework.Week07.Scrabble
-import Homework.Week07.Sized
+import           Homework.Week07.Buffer
+import           Homework.Week07.Scrabble
+import           Homework.Week07.Sized
 
 data JoinList m a = Empty
                   | Single m a
@@ -65,7 +65,11 @@ instance Buffer (JoinList (Score, Size) String) where
   -- | @replaceLine n ln buf@ returns a modified version of @buf@,
   --   with the @n@th line replaced by @ln@.  If the index is
   --   out-of-bounds, the buffer should be returned unmodified.
-  replaceLine :: Int -> String -> JoinList (Score, Size) String -> JoinList (Score, Size) String
+  replaceLine
+    :: Int
+    -> String
+    -> JoinList (Score, Size) String
+    -> JoinList (Score, Size) String
   replaceLine = undefined
 
   -- | Compute the number of lines in the buffer.

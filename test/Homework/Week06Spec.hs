@@ -1,11 +1,11 @@
-module Homework.Week06Spec (
-  main,
-  spec
-) where
+module Homework.Week06Spec
+  ( main
+  , spec
+  ) where
 
-import Test.Hspec
+import           Test.Hspec
 
-import Homework.Week06.Assignment
+import           Homework.Week06.Assignment
 
 main :: IO ()
 main = hspec spec
@@ -43,13 +43,13 @@ spec = do
   describe "streamMap" $ do
     it "produces a new stream of the applied function's results" $ do
       pending
-      take 8 (streamToList $ streamMap (+1) (streamRepeat 5))
+      take 8 (streamToList $ streamMap (+ 1) (streamRepeat 5))
         `shouldBe` ([6, 6, 6, 6, 6, 6, 6, 6] :: [Integer])
 
   describe "streamFromSeed" $ do
     it "produces a stream by unfolding the seed with the given function" $ do
       pending
-      take 8 (streamToList $ streamFromSeed (+1) 0)
+      take 8 (streamToList $ streamFromSeed (+ 1) 0)
         `shouldBe` ([0, 1, 2, 3, 4, 5, 6, 7] :: [Integer])
       take 8 (streamToList $ streamFromSeed (++ "~") "")
         `shouldBe` ["", "~", "~~", "~~~", "~~~~", "~~~~~", "~~~~~~", "~~~~~~~"]

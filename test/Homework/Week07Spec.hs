@@ -1,18 +1,18 @@
 
-module Homework.Week07Spec (
-  main,
-  spec
-) where
+module Homework.Week07Spec
+  ( main
+  , spec
+  ) where
 
-import Test.Hspec
-import Test.QuickCheck
+import           Test.Hspec
+import           Test.QuickCheck
 
-import Homework.Week07.Sized
-import Homework.Week07.JoinList
-import Homework.Week07.Scrabble
-import Homework.Week07.Buffer
+import           Homework.Week07.Buffer
+import           Homework.Week07.JoinList
+import           Homework.Week07.Scrabble
+import           Homework.Week07.Sized
 
-import Data.Monoid
+import           Data.Monoid
 
 main :: IO ()
 main = hspec spec
@@ -22,7 +22,8 @@ spec = do
   describe "tag" $ do
     it "gets the annotation at the root of a JoinList" $ do
       pending
-      tag (Append (Sum 5) (Single (Sum 3) 'a') (Single (Sum 2) 'b')) `shouldBe` Sum 5
+      tag (Append (Sum 5) (Single (Sum 3) 'a') (Single (Sum 2) 'b'))
+        `shouldBe` Sum 5
       tag (Single (Sum 10) 'a') `shouldBe` Sum 10
 
   describe "+++" $ do
@@ -33,7 +34,10 @@ spec = do
       (+++) a b `shouldBe` Append (Sum 5) a b
 
   describe "exercise 2" $ do
-    let jl = Append (Size 3) (Append (Size 2) (Single (Size 1) 's') (Single (Size 1) 'u')) (Single (Size 1) 'p')
+    let jl = Append
+          (Size 3)
+          (Append (Size 2) (Single (Size 1) 's') (Single (Size 1) 'u'))
+          (Single (Size 1) 'p')
 
     describe "indexJ" $ do
       it "finds a letter at the specified index" $ do
@@ -76,18 +80,23 @@ spec = do
       tag (scoreLine "yay" +++ scoreLine "haskell!") `shouldBe` Score 23
     it "converts to joinLists" $ do
       pending
-      jlToList (scoreLine "yay" +++ scoreLine "haskell!") `shouldBe` ["yay", "haskell!"]
+      jlToList (scoreLine "yay" +++ scoreLine "haskell!")
+        `shouldBe` ["yay", "haskell!"]
 
   describe "Buffer" $ do
     let testString = unlines ["a", "z"]
-    let testJoinList = Append (Score 11, Size 2)
-          (Single (Score 1, Size 1) "a")
-          (Append (Score 10, Size 1) (Single (Score 10, Size 1) "z") Empty)
-          :: JoinList (Score, Size) String
+    let testJoinList =
+          Append
+            (Score 11, Size 2)
+            (Single (Score 1, Size 1) "a")
+            (Append (Score 10, Size 1) (Single (Score 10, Size 1) "z") Empty) :: JoinList
+              (Score, Size)
+              String
     describe "fromString" $ do
       it "converts a string to a JoinList" $ do
         pending
-        let processedList = fromString testString :: JoinList (Score, Size) String
+        let processedList =
+              fromString testString :: JoinList (Score, Size) String
         jlToList processedList `shouldBe` jlToList testJoinList
         tag processedList `shouldBe` (Score 11, Size 2)
     describe "toString" $ do

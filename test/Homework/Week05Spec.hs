@@ -1,20 +1,19 @@
-module Homework.Week05Spec (
-  main,
-  spec
-) where
+module Homework.Week05Spec
+  ( main
+  , spec
+  ) where
 
-import Test.Hspec
-import Test.QuickCheck
+import           Test.Hspec
+import           Test.QuickCheck
 
-import Homework.Week05.Assignment
+import           Homework.Week05.Assignment
 
 main :: IO ()
 main = hspec spec
 
 spec :: Spec
 spec = do
-  describe "week 5 specs" $
-    it "are commented out below" pending
+  describe "week 5 specs" $ it "are commented out below" pending
 {-
   describe "eval" $ do
     it "evaluates Lit expressions as plain integers" $ do

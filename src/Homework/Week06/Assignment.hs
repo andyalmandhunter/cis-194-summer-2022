@@ -1,15 +1,15 @@
-module Homework.Week06.Assignment (
-  fib,
-  fibs1,
-  fibs2,
-  streamToList,
-  streamRepeat,
-  streamMap,
-  streamFromSeed,
-  nats,
-  ruler,
-  Stream(..)
-) where
+module Homework.Week06.Assignment
+  ( fib
+  , fibs1
+  , fibs2
+  , streamToList
+  , streamRepeat
+  , streamMap
+  , streamFromSeed
+  , nats
+  , ruler
+  , Stream(..)
+  ) where
 
 -- #1a
 fib :: Integer -> Integer

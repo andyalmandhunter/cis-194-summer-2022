@@ -2,7 +2,7 @@
 
 module Homework.Week07.Sized where
 
-import Data.Monoid
+import           Data.Monoid
 
 newtype Size = Size Int
   deriving (Eq, Ord, Show, Num)
@@ -25,7 +25,7 @@ instance Sized b => Sized (a,b) where
   size = size . snd
 
 instance Monoid Size where
-  mempty  = Size 0
+  mempty = Size 0
 
 instance Semigroup Size where
   Size s1 <> Size s2 = Size (s1 + s2)

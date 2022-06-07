@@ -1,17 +1,17 @@
-module Homework.Week09.Assignment (
-  zeroOrMore,
-  oneOrMore,
-  spaces,
-  ident,
-  parseSExpr,
-  Ident(..),
-  Atom(..),
-  SExpr(..)
-) where
+module Homework.Week09.Assignment
+  ( zeroOrMore
+  , oneOrMore
+  , spaces
+  , ident
+  , parseSExpr
+  , Ident(..)
+  , Atom(..)
+  , SExpr(..)
+  ) where
 
-import Control.Applicative
+import           Control.Applicative
 
-import Homework.Week09.AParser
+import           Homework.Week09.AParser
 
 -- #1
 zeroOrMore :: Parser a -> Parser [a]

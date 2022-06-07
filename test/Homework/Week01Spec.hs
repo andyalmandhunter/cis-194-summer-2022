@@ -1,11 +1,11 @@
-module Homework.Week01Spec (
-  main,
-  spec
-) where
+module Homework.Week01Spec
+  ( main
+  , spec
+  ) where
 
-import Test.Hspec
+import           Test.Hspec
 
-import Homework.Week01.Assignment
+import           Homework.Week01.Assignment
 
 main :: IO ()
 main = hspec spec
@@ -15,7 +15,7 @@ spec = do
   describe "toDigits" $ do
     it "should split digits of integer into a list" $ do
       pending
-      toDigits 1234 `shouldBe` [1,2,3,4]
+      toDigits 1234 `shouldBe` [1, 2, 3, 4]
 
     it "should return an empty list for zero" $ do
       pending
@@ -37,9 +37,9 @@ spec = do
 
     it "should split digits of integer into a list in reverse order" $ do
       pending
-      toDigitsRev 123 `shouldBe` [3,2,1]
-      toDigitsRev 431 `shouldBe` [1,3,4]
-      toDigitsRev 12 `shouldBe` [2,1]
+      toDigitsRev 123 `shouldBe` [3, 2, 1]
+      toDigitsRev 431 `shouldBe` [1, 3, 4]
+      toDigitsRev 12 `shouldBe` [2, 1]
       toDigitsRev 2 `shouldBe` [2]
 
   describe "doubleEveryOther" $ do
@@ -49,8 +49,8 @@ spec = do
 
     it "should double every other int in the list, from right to left" $ do
       pending
-      doubleEveryOther [8,7,6,5] `shouldBe`[16,7,12,5]
-      doubleEveryOther [1,2,3] `shouldBe` [1,4,3]
+      doubleEveryOther [8, 7, 6, 5] `shouldBe` [16, 7, 12, 5]
+      doubleEveryOther [1, 2, 3] `shouldBe` [1, 4, 3]
 
   describe "sumDigits" $ do
     it "should return zero for an empty list" $ do
@@ -59,8 +59,8 @@ spec = do
 
     it "should sum all digits in the list" $ do
       pending
-      sumDigits [16,7,12,5] `shouldBe` 22
-      sumDigits [18,7,33,5] `shouldBe` 27
+      sumDigits [16, 7, 12, 5] `shouldBe` 22
+      sumDigits [18, 7, 33, 5] `shouldBe` 27
 
   describe "validate" $ do
     it "should return True for valid card number" $ do
@@ -86,7 +86,15 @@ spec = do
 
     it "should solve for 3 discs" $ do
       pending
-      hanoi 3 "a" "b" "c" `shouldBe` [("a", "b"), ("a", "c"), ("b", "c"), ("a", "b"), ("c", "a"), ("c", "b"), ("a", "b")]
+      hanoi 3 "a" "b" "c"
+        `shouldBe` [ ("a", "b")
+                   , ("a", "c")
+                   , ("b", "c")
+                   , ("a", "b")
+                   , ("c", "a")
+                   , ("c", "b")
+                   , ("a", "b")
+                   ]
 
     it "should have the correct number of moves for 4 discs" $ do
       pending

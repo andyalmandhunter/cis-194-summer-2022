@@ -1,12 +1,14 @@
 -- Applicative parser for infix arithmetic expressions without any
 -- dependency on hackage. Builds an explicit representation of the
 -- syntax tree to fold over using client-supplied semantics.
-module Homework.Week05.Parser (parseExp) where
-import Control.Applicative hiding (Const)
-import Control.Arrow
-import Data.Char
-import Data.Monoid
-import Data.List (foldl')
+module Homework.Week05.Parser
+  ( parseExp
+  ) where
+import           Control.Applicative     hiding ( Const )
+import           Control.Arrow
+import           Data.Char
+import           Data.List                      ( foldl' )
+import           Data.Monoid
 
 -- Building block of a computation with some state of type @s@
 -- threaded through it, possibly resulting in a value of type @r@
@@ -20,18 +22,17 @@ data Expr = Const Integer
             deriving Show
 
 instance Functor (State s) where
-    fmap f (State g) = State $ fmap (first f) . g
+  fmap f (State g) = State $ fmap (first f) . g
 
 instance Applicative (State s) where
-    pure x = State $ \s -> Just (x, s)
-    State f <*> State g = State $ \s ->
-                          case f s of
-                            Nothing -> Nothing
-                            Just (r, s') -> fmap (first r) . g $ s'
+  pure x = State $ \s -> Just (x, s)
+  State f <*> State g = State $ \s -> case f s of
+    Nothing      -> Nothing
+    Just (r, s') -> fmap (first r) . g $ s'
 
 instance Alternative (State s) where
-    empty = State $ const Nothing
-    State f <|> State g = State $ \s -> maybe (g s) Just (f s)
+  empty = State $ const Nothing
+  State f <|> State g = State $ \s -> maybe (g s) Just (f s)
 
 -- A parser threads some 'String' state through a computation that
 -- produces some value of type @a@.
@@ -40,23 +41,24 @@ type Parser a = State String a
 -- Parse one numerical digit.
 digit :: Parser Integer
 digit = State $ parseDigit
-    where parseDigit [] = Nothing
-          parseDigit s@(c:cs)
-              | isDigit c = Just (fromIntegral $ digitToInt c, cs)
-              | otherwise = Nothing
+ where
+  parseDigit [] = Nothing
+  parseDigit s@(c : cs) | isDigit c = Just (fromIntegral $ digitToInt c, cs)
+                        | otherwise = Nothing
 
 -- Parse an integer. The integer may be prefixed with a negative sign.
 num :: Parser Integer
-num = maybe id (const negate) <$> optional (char '-') <*> (toInteger <$> some digit)
-    where toInteger = foldl' ((+) . (* 10)) 0
+num =
+  maybe id (const negate) <$> optional (char '-') <*> (toInteger <$> some digit)
+  where toInteger = foldl' ((+) . (* 10)) 0
 
 -- Parse a single white space character.
 space :: Parser ()
 space = State $ parseSpace
-    where parseSpace [] = Nothing
-          parseSpace s@(c:cs)
-              | isSpace c = Just ((), cs)
-              | otherwise = Nothing
+ where
+  parseSpace [] = Nothing
+  parseSpace s@(c : cs) | isSpace c = Just ((), cs)
+                        | otherwise = Nothing
 
 -- Consume zero or more white space characters.
 eatSpace :: Parser ()
@@ -65,9 +67,10 @@ eatSpace = const () <$> many space
 -- Parse a specific character.
 char :: Char -> Parser Char
 char c = State parseChar
-    where parseChar [] = Nothing
-          parseChar (x:xs) | x == c = Just (c, xs)
-                           | otherwise = Nothing
+ where
+  parseChar [] = Nothing
+  parseChar (x : xs) | x == c    = Just (c, xs)
+                     | otherwise = Nothing
 
 -- Parse one of our two supported operator symbols.
 op :: Parser (Expr -> Expr -> Expr)
@@ -76,16 +79,18 @@ op = const Add <$> (char '+') <|> const Mul <$> (char '*')
 -- Succeed only if the end of the input has been reached.
 eof :: Parser ()
 eof = State parseEof
-    where parseEof [] = Just ((),[])
-          parseEof _  = Nothing
+ where
+  parseEof [] = Just ((), [])
+  parseEof _  = Nothing
 
 -- Parse an infix arithmetic expression consisting of integers, plus
 -- signs, multiplication signs, and parentheses.
 parseExpr :: Parser Expr
-parseExpr = eatSpace *>
-            ((buildOp <$> nonOp <*> (eatSpace *> op) <*> parseExpr) <|> nonOp)
-    where buildOp x op y = x `op` y
-          nonOp = char '(' *> parseExpr <* char ')' <|> Const <$> num
+parseExpr =
+  eatSpace *> ((buildOp <$> nonOp <*> (eatSpace *> op) <*> parseExpr) <|> nonOp)
+ where
+  buildOp x op y = x `op` y
+  nonOp = char '(' *> parseExpr <* char ')' <|> Const <$> num
 
 -- Run a parser over a 'String' returning the parsed value and the
 -- remaining 'String' data.
@@ -98,8 +103,10 @@ evalParser = (fmap fst .) . execParser
 
 -- Parse an arithmetic expression using the supplied semantics for
 -- integral constants, addition, and multiplication.
-parseExp :: (Integer -> a) -> (a -> a -> a) -> (a -> a -> a) -> String -> Maybe a
+parseExp
+  :: (Integer -> a) -> (a -> a -> a) -> (a -> a -> a) -> String -> Maybe a
 parseExp con add mul = (convert <$>) . evalParser (parseExpr <* eof)
-    where convert (Const x) = con x
-          convert (Add x y) = add (convert x) (convert y)
-          convert (Mul x y) = mul (convert x) (convert y)
+ where
+  convert (Const x) = con x
+  convert (Add x y) = add (convert x) (convert y)
+  convert (Mul x y) = mul (convert x) (convert y)

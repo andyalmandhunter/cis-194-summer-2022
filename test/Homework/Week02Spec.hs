@@ -1,11 +1,11 @@
-module Homework.Week02Spec (
-  main,
-  spec
-) where
+module Homework.Week02Spec
+  ( main
+  , spec
+  ) where
 
-import Test.Hspec
+import           Test.Hspec
 
-import Homework.Week02.Assignment
+import           Homework.Week02.Assignment
 
 main :: IO ()
 main = hspec spec
@@ -15,7 +15,8 @@ spec = do
   describe "LogAnalysis" $ do
     it "should parse error lines" $ do
       pending
-      parseMessage "E 2 562 help help" `shouldBe` LogMessage (Error 2) 562 "help help"
+      parseMessage "E 2 562 help help"
+        `shouldBe` LogMessage (Error 2) 562 "help help"
 
     it "should parse info lines" $ do
       pending
@@ -23,13 +24,17 @@ spec = do
 
     it "should parse unknown lines" $ do
       pending
-      parseMessage "This is not in the right format" `shouldBe`  Unknown "This is not in the right format"
+      parseMessage "This is not in the right format"
+        `shouldBe` Unknown "This is not in the right format"
 
   describe "parse" $ do
     it "should take a multi-line string and parse out the LogMessages" $ do
       pending
       let fakeLogFile = "E 2 562 help help \nI 2 hello ma"
-      parse fakeLogFile `shouldBe` [LogMessage (Error 2) 562 "help help", LogMessage Info 2 "hello ma"]
+      parse fakeLogFile
+        `shouldBe` [ LogMessage (Error 2) 562 "help help"
+                   , LogMessage Info      2   "hello ma"
+                   ]
 
   describe "insert" $ do
     it "no-ops given an Unknown LogMessage" $ do
@@ -51,9 +56,9 @@ spec = do
       let baz = LogMessage Warning 5 "baz"
       let bif = LogMessage Warning 15 "bif"
 
-      let a = Node Leaf foo Leaf
-      let b = insert baz a
-      let c = insert bif b
+      let a   = Node Leaf foo Leaf
+      let b   = insert baz a
+      let c   = insert bif b
 
       b `shouldBe` Node (Node Leaf baz Leaf) foo Leaf
       c `shouldBe` Node (Node Leaf baz Leaf) foo (Node Leaf bif Leaf)
@@ -66,7 +71,8 @@ spec = do
       let baz = LogMessage Warning 5 "baz"
       let bif = LogMessage Warning 15 "bif"
 
-      build [foo, baz, bif] `shouldBe` Node (Node Leaf baz Leaf) foo (Node Leaf bif Leaf)
+      build [foo, baz, bif]
+        `shouldBe` Node (Node Leaf baz Leaf) foo (Node Leaf bif Leaf)
 
 
   describe "inOrder" $ do
@@ -77,14 +83,23 @@ spec = do
       let bif = LogMessage Warning 15 "bif"
       let gaz = LogMessage (Error 1) 20 "gaz"
 
-      let tree = Node (Node Leaf baz Leaf) foo (Node Leaf bif (Node Leaf gaz Leaf))
+      let tree =
+            Node (Node Leaf baz Leaf) foo (Node Leaf bif (Node Leaf gaz Leaf))
 
       inOrder tree `shouldBe` [baz, foo, bif, gaz]
 
 
   describe "whatWentWrong" $ do
-    it "will return the messages from LogMessages with Errors whose severity is 50+ - sorted by timestamp" $ do
-      pending
-      let messages = [LogMessage (Error 49) 10 "alpha", LogMessage (Error 51) 11 "beta", LogMessage (Error 100) 9 "kappa", Unknown "foo", LogMessage Warning 100 "blar"]
+    it
+        "will return the messages from LogMessages with Errors whose severity is 50+ - sorted by timestamp"
+      $ do
+          pending
+          let messages =
+                [ LogMessage (Error 49)  10 "alpha"
+                , LogMessage (Error 51)  11 "beta"
+                , LogMessage (Error 100) 9  "kappa"
+                , Unknown "foo"
+                , LogMessage Warning 100 "blar"
+                ]
 
-      whatWentWrong messages `shouldBe` ["kappa", "beta"]
+          whatWentWrong messages `shouldBe` ["kappa", "beta"]

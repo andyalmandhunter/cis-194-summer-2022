@@ -1,11 +1,11 @@
-module Homework.Week12Spec (
-  main,
-  spec
-) where
+module Homework.Week12Spec
+  ( main
+  , spec
+  ) where
 
-import Test.Hspec
-import Homework.Week12.Employee
-import Homework.Week12.Assignment
+import           Homework.Week12.Assignment
+import           Homework.Week12.Employee
+import           Test.Hspec
 
 main :: IO ()
 main = hspec spec
