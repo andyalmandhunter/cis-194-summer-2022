@@ -37,3 +37,8 @@ instance Expr Integer where
   lit = id
   add x y = x + y
   mul x y = x * y
+
+instance Expr Bool where
+  lit = (> 0)
+  add = (||)
+  mul = (&&)
