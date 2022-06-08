@@ -2,8 +2,8 @@ module Homework.Week05.Assignment
   ( eval
   , evalStr
   , ExprT(..)
+  , Expr(..)
   -- uncomment these once you've defined them:
-  -- Expr(..),
   -- MinMax(..),
   -- Mod7(..)
   ) where
@@ -22,10 +22,15 @@ evalStr :: String -> Maybe Integer
 evalStr = fmap eval . parseExp Lit Add Mul
 
 -- #3
--- class Expr a where
---   lit :: ???
---   add :: ???
---   mul :: ???
+class Expr a where
+  lit :: Integer -> a
+  add :: a -> a -> a
+  mul :: a -> a -> a
+
+instance Expr ExprT where
+  lit = Lit
+  add = Add
+  mul = Mul
 
 -- #4
 -- instance Expr Integer where
