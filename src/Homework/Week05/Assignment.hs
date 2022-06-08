@@ -34,8 +34,8 @@ instance Expr ExprT where
 -- #4
 instance Expr Integer where
   lit = id
-  add x y = x + y
-  mul x y = x * y
+  add = (+)
+  mul = (*)
 
 instance Expr Bool where
   lit = (> 0)
