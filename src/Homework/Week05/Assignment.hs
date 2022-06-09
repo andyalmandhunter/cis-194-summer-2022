@@ -1,3 +1,5 @@
+{-# LANGUAGE FlexibleInstances #-}
+
 module Homework.Week05.Assignment
   ( eval
   , evalStr
@@ -5,10 +7,17 @@ module Homework.Week05.Assignment
   , Expr(..)
   , MinMax(..)
   , Mod7(..)
+  , compile
+  , stackVM
   ) where
 
-import           Homework.Week05.ExprT
-import           Homework.Week05.Parser
+import           Homework.Week05.ExprT          ( ExprT(..) )
+import           Homework.Week05.Parser         ( parseExp )
+import qualified Homework.Week05.StackVM       as StackVM
+                                                ( StackExp(Add, Mul, PushI) )
+import           Homework.Week05.StackVM        ( Program
+                                                , stackVM
+                                                )
 
 -- #1
 eval :: ExprT -> Integer
@@ -55,3 +64,12 @@ instance Expr Mod7 where
   lit = Mod7 . flip mod 7
   add (Mod7 x) (Mod7 y) = lit $ x + y
   mul (Mod7 x) (Mod7 y) = lit $ x * y
+
+-- #5
+instance Expr Program where
+  lit x = [StackVM.PushI x]
+  add x y = x ++ y ++ [StackVM.Add]
+  mul x y = x ++ y ++ [StackVM.Mul]
+
+compile :: String -> Maybe Program
+compile = parseExp lit add mul
