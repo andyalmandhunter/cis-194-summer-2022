@@ -35,7 +35,7 @@ streamToList (Stream x s) = x : streamToList s
 instance Show a => Show (Stream a) where
   show s =
     let go = intercalate "," . map show . take 20 . streamToList
-    in  "[" ++ go s ++ ",..]"
+    in  "[" ++ go s ++ ",...]"
 
 -- #4
 streamRepeat :: a -> Stream a
