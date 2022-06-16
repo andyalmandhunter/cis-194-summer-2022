@@ -54,18 +54,5 @@ nats = streamFromSeed (+ 1) 0
 interleaveStreams :: Stream a -> Stream a -> Stream a
 interleaveStreams (Stream x xs) y = Stream x (interleaveStreams y xs)
 
-
-interleaveStreams (Stream x xs) (Stream y ys) =
-  Stream x $ Stream y $ interleaveStreams xs ys
-
 ruler :: Stream Integer
 ruler = go 0 where go n = interleaveStreams (streamRepeat n) (go (n + 1))
-
--- ruler = interleaveStreams
---   (streamRepeat 0)
---   (interleaveStreams
---     (streamRepeat 1)
---     (interleaveStreams (streamRepeat 2)
---                        (interleaveStreams (streamRepeat 3) (streamRepeat 4))
---     )
---   )
