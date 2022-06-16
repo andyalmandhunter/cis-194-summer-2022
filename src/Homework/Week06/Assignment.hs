@@ -11,6 +11,8 @@ module Homework.Week06.Assignment
   , Stream(..)
   ) where
 
+import           Data.List                      ( intercalate )
+
 -- #1a
 fib :: Integer -> Integer
 fib 0 = 0
@@ -31,7 +33,9 @@ streamToList :: Stream a -> [a]
 streamToList (Stream x s) = x : streamToList s
 
 instance Show a => Show (Stream a) where
-  show = show . take 20 . streamToList
+  show s =
+    let go = intercalate "," . map show . take 20 . streamToList
+    in  "[" ++ go s ++ ",...]"
 
 -- #4
 streamRepeat :: a -> Stream a
