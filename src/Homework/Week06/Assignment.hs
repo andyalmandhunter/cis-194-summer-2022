@@ -25,6 +25,7 @@ fibs1 = map fib [0 ..]
 -- #2
 fibs2 :: [Integer]
 fibs2 = let f (x, y) = (y, x + y) in map fst $ iterate f (0, 1)
+-- Try using zipWith (a -> b -> c) ([a]) ([b])
 
 -- #3
 data Stream a = Stream a (Stream a)
