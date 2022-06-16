@@ -22,7 +22,7 @@ fibs1 = map fib [0 ..]
 
 -- #2
 fibs2 :: [Integer]
-fibs2 = map fst $ iterate (\(x, y) -> (y, x + y)) (0, 1)
+fibs2 = let f (x, y) = (y, x + y) in map fst $ iterate f (0, 1)
 
 -- #3
 data Stream a = Stream a -- replace this with your own definition; this one is wrong
