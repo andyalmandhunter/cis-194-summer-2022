@@ -39,13 +39,13 @@ instance Show a => Show (Stream a) where
 
 -- #4
 streamRepeat :: a -> Stream a
-streamRepeat = undefined
+streamRepeat x = Stream x (streamRepeat x)
 
 streamMap :: (a -> b) -> Stream a -> Stream b
-streamMap = undefined
+streamMap f (Stream x s) = Stream (f x) (streamMap f s)
 
 streamFromSeed :: (a -> a) -> a -> Stream a
-streamFromSeed = undefined
+streamFromSeed f x = Stream x (streamFromSeed f (f x))
 
 -- #5
 nats :: Stream Integer
