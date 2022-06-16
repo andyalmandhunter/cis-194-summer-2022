@@ -35,7 +35,7 @@ streamToList (Stream x s) = x : streamToList s
 instance Show a => Show (Stream a) where
   show s =
     let go = intercalate "," . map show . take 20 . streamToList
-    in  "[" ++ go s ++ ",...]"
+    in  "[" ++ go s ++ ",..]"
 
 -- #4
 streamRepeat :: a -> Stream a
@@ -51,5 +51,21 @@ streamFromSeed f x = Stream x (streamFromSeed f (f x))
 nats :: Stream Integer
 nats = streamFromSeed (+ 1) 0
 
+interleaveStreams :: Stream a -> Stream a -> Stream a
+interleaveStreams (Stream x xs) y = Stream x (interleaveStreams y xs)
+
+
+interleaveStreams (Stream x xs) (Stream y ys) =
+  Stream x $ Stream y $ interleaveStreams xs ys
+
 ruler :: Stream Integer
-ruler = undefined
+ruler = go 0 where go n = interleaveStreams (streamRepeat n) (go (n + 1))
+
+-- ruler = interleaveStreams
+--   (streamRepeat 0)
+--   (interleaveStreams
+--     (streamRepeat 1)
+--     (interleaveStreams (streamRepeat 2)
+--                        (interleaveStreams (streamRepeat 3) (streamRepeat 4))
+--     )
+--   )
