@@ -25,13 +25,13 @@ fibs2 :: [Integer]
 fibs2 = let f (x, y) = (y, x + y) in map fst $ iterate f (0, 1)
 
 -- #3
-data Stream a = Stream a -- replace this with your own definition; this one is wrong
+data Stream a = Stream a (Stream a)
 
 streamToList :: Stream a -> [a]
-streamToList = undefined
+streamToList (Stream x s) = x : streamToList s
 
--- instance Show a => Show (Stream a) where
---   show = ???
+instance Show a => Show (Stream a) where
+  show = show . take 20 . streamToList
 
 -- #4
 streamRepeat :: a -> Stream a
