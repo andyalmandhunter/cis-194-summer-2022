@@ -50,7 +50,6 @@ spec = do
 
   describe "nats" $ do
     it "is a stream of the natural numbers" $ do
-      pending
       take 8 (streamToList nats) `shouldBe` [0, 1, 2, 3, 4, 5, 6, 7]
 
   describe "ruler" $ do

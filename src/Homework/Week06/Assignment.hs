@@ -49,7 +49,7 @@ streamFromSeed f x = Stream x (streamFromSeed f (f x))
 
 -- #5
 nats :: Stream Integer
-nats = undefined
+nats = streamFromSeed (+ 1) 0
 
 ruler :: Stream Integer
 ruler = undefined
