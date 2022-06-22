@@ -30,7 +30,10 @@ tag (Append m _ _) = m
 x +++ y = Append (tag x <> tag y) x y
 
 (!!?) :: [a] -> Int -> Maybe a
-(!!?) = undefined
+[] !!? _        = Nothing
+_ !!? i | i < 0 = Nothing
+(x : xs) !!? 0  = Just x
+(x : xs) !!? i  = xs !!? (i - 1)
 
 jlToList :: Monoid m => JoinList m a -> [a]
 jlToList = undefined
