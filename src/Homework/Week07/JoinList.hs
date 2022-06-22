@@ -22,7 +22,9 @@ data JoinList m a = Empty
                   | Append m (JoinList m a) (JoinList m a) deriving (Eq, Show)
 
 tag :: Monoid m => JoinList m a -> m
-tag = undefined
+tag Empty          = mempty
+tag (Single m _  ) = m
+tag (Append m _ _) = m
 
 (!!?) :: [a] -> Int -> Maybe a
 (!!?) = undefined
