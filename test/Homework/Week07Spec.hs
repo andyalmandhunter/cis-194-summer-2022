@@ -27,7 +27,6 @@ spec = do
 
   describe "+++" $ do
     it "appends two JoinList structures together" $ do
-      pending
       let a = Single (Sum 3) 'a'
       let b = Single (Sum 2) 'b'
       (+++) a b `shouldBe` Append (Sum 5) a b

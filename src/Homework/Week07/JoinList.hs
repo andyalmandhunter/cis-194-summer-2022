@@ -26,14 +26,14 @@ tag Empty          = mempty
 tag (Single m _  ) = m
 tag (Append m _ _) = m
 
+(+++) :: Monoid m => JoinList m a -> JoinList m a -> JoinList m a
+x +++ y = Append (tag x <> tag y) x y
+
 (!!?) :: [a] -> Int -> Maybe a
 (!!?) = undefined
 
 jlToList :: Monoid m => JoinList m a -> [a]
 jlToList = undefined
-
-(+++) :: Monoid m => JoinList m a -> JoinList m a -> JoinList m a
-(+++) = undefined
 
 indexJ :: (Sized b, Monoid b) => Int -> JoinList b a -> Maybe a
 indexJ = undefined
