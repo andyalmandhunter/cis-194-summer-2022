@@ -49,7 +49,12 @@ indexJ i (Append _ x y) | i < getSize (size (tag x)) = indexJ i x
                         | otherwise = indexJ (i - getSize (size (tag x))) y
 
 dropJ :: (Sized b, Monoid b) => Int -> JoinList b a -> JoinList b a
-dropJ = undefined
+dropJ _ Empty = Empty
+dropJ 0 jl    = jl
+dropJ i (Single s x) | i > 0     = Empty
+                     | otherwise = Single s x
+dropJ i (Append s x y) | i < getSize (size (tag x)) = Append s (dropJ i x) y
+                       | otherwise = dropJ (i - getSize (size (tag x))) y
 
 takeJ :: (Sized b, Monoid b) => Int -> JoinList b a -> JoinList b a
 takeJ = undefined

@@ -45,13 +45,10 @@ spec = do
 
     describe "dropJ" $ do
       it "returns the list when dropping 0" $ do
-        pending
         jlToList (dropJ 0 jl) `shouldBe` jlToList jl
       it "drops the first element from a JoinList" $ do
-        pending
         jlToList (dropJ 1 jl) `shouldBe` ['u', 'p']
       it "drops the first n elements from a JoinList" $ do
-        pending
         jlToList (dropJ 2 jl) `shouldBe` ['p']
 
     describe "takeJ" $ do
