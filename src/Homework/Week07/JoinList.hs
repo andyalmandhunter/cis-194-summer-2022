@@ -125,4 +125,6 @@ instance Buffer (JoinList (Score, Size) String) where
   -- | Compute the value of the buffer, i.e. the amount someone would
   --   be paid for publishing the contents of the buffer.
   value :: JoinList (Score, Size) String -> Int
-  value = undefined
+  value Empty                     = 0
+  value (Single (Score s, _) _  ) = s
+  value (Append (Score s, _) _ _) = s
