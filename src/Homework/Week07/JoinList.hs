@@ -13,9 +13,14 @@ module Homework.Week07.JoinList
   , JoinList(..)
   ) where
 
-import           Homework.Week07.Buffer
-import           Homework.Week07.Scrabble
-import           Homework.Week07.Sized
+import           Homework.Week07.Buffer         ( Buffer(..) )
+import           Homework.Week07.Scrabble       ( Score(..)
+                                                , scoreString
+                                                )
+import           Homework.Week07.Sized          ( Size(..)
+                                                , Sized(..)
+                                                , getSize
+                                                )
 
 data JoinList m a = Empty
                   | Single m a
