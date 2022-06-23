@@ -81,24 +81,19 @@ spec = do
               String
     describe "fromString" $ do
       it "converts a string to a JoinList" $ do
-        pending
         let processedList =
               fromString testString :: JoinList (Score, Size) String
         jlToList processedList `shouldBe` jlToList testJoinList
         tag processedList `shouldBe` (Score 11, Size 2)
     describe "toString" $ do
       it "converts a JoinList to a string" $ do
-        pending
         toString testJoinList `shouldBe` testString
     describe "line" $ do
       it "gets a single line" $ do
-        pending
         line 0 (Single (Score 2, Size 1) "a") `shouldBe` Just "a"
       it "gets a line from a joinList" $ do
-        pending
         line 0 testJoinList `shouldBe` Just "a"
       it "gets a second line from a joinList" $ do
-        pending
         line 1 testJoinList `shouldBe` Just "z"
     describe "numLines" $ do
       it "counts lines" $ do

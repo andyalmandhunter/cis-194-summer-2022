@@ -76,16 +76,28 @@ instance Buffer (JoinList (Score, Size) String) where
 
   -- | Convert a buffer to a String.
   toString :: JoinList (Score, Size) String -> String
-  toString = undefined
+  toString jl =
+    let go Empty          = []
+        go (Single _ x  ) = [x]
+        go (Append _ x y) = go x ++ go y
+    in  unlines $ go jl
 
   -- | Create a buffer from a String.
   fromString :: String -> JoinList (Score, Size) String
-  fromString = undefined
+  fromString = foldr f Empty . lines
+   where
+    f x acc =
+      let x' = Single (scoreString x, Size $ length x) x
+      in  Append (tag x' <> tag acc) x' acc
 
   -- | Extract the nth line (0-indexed) from a buffer.  Return Nothing
   -- for out-of-bounds indices.
   line :: Int -> JoinList (Score, Size) String -> Maybe String
-  line = undefined
+  line _ Empty = Nothing
+  line i (Single _ x) | i == 0    = Just x
+                      | otherwise = Nothing
+  line 0 (Append _ x _) = line 0 x
+  line i (Append _ _ y) = line (i - 1) y
 
   -- | @replaceLine n ln buf@ returns a modified version of @buf@,
   --   with the @n@th line replaced by @ln@.  If the index is
