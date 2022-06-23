@@ -44,9 +44,9 @@ indexJ :: (Sized b, Monoid b) => Int -> JoinList b a -> Maybe a
 indexJ _ Empty = Nothing
 indexJ i (Single _ x) | i == 0    = Just x
                       | otherwise = Nothing
-indexJ i (Append _ x y) | i < xs    = indexJ i x
-                        | otherwise = indexJ (i - xs) y
-  where xs = getSize (size (tag x))
+indexJ i (Append _ x y) | i < xSize = indexJ i x
+                        | otherwise = indexJ (i - xSize) y
+  where xSize = getSize (size (tag x))
 
 dropJ :: (Sized b, Monoid b) => Int -> JoinList b a -> JoinList b a
 dropJ _ Empty = Empty
@@ -54,18 +54,18 @@ dropJ 0 jl    = jl
 dropJ i (Single s x) | i > 0     = Empty
                      | otherwise = Single s x
 dropJ i (Append s x y)
-  | i < xs    = let x' = dropJ i x in Append (tag x' <> tag y) x' y
-  | otherwise = dropJ (i - xs) y
-  where xs = getSize (size (tag x))
+  | i < xSize = let x' = dropJ i x in Append (tag x' <> tag y) x' y
+  | otherwise = dropJ (i - xSize) y
+  where xSize = getSize (size (tag x))
 
 takeJ :: (Sized b, Monoid b) => Int -> JoinList b a -> JoinList b a
 takeJ _ Empty        = Empty
 takeJ i _ | i < 1    = Empty
 takeJ i (Single s x) = Single s x
 takeJ i (Append s x y)
-  | i < xs    = takeJ i x
-  | otherwise = let y' = takeJ (i - xs) y in Append (tag x <> tag y') x y'
-  where xs = getSize (size (tag x))
+  | i < xSize = takeJ i x
+  | otherwise = let y' = takeJ (i - xSize) y in Append (tag x <> tag y') x y'
+  where xSize = getSize (size (tag x))
 
 scoreLine :: String -> JoinList Score String
 scoreLine = undefined
