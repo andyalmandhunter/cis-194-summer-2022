@@ -40,23 +40,22 @@ jlToList Empty          = []
 jlToList (Single _ x  ) = [x]
 jlToList (Append _ x y) = jlToList x ++ jlToList y
 
-jlSize :: (Sized b, Monoid b) => JoinList b a -> Int
-jlSize x = getSize (size (tag x))
-
 indexJ :: (Sized b, Monoid b) => Int -> JoinList b a -> Maybe a
 indexJ _ Empty = Nothing
 indexJ i (Single _ x) | i == 0    = Just x
                       | otherwise = Nothing
-indexJ i (Append _ x y) | i < jlSize x = indexJ i x
-                        | otherwise    = indexJ (i - jlSize x) y
+indexJ i (Append _ x y) | i < xs    = indexJ i x
+                        | otherwise = indexJ (i - xs) y
+  where xs = getSize (size (tag x))
 
 dropJ :: (Sized b, Monoid b) => Int -> JoinList b a -> JoinList b a
 dropJ _ Empty = Empty
 dropJ 0 jl    = jl
 dropJ i (Single s x) | i > 0     = Empty
                      | otherwise = Single s x
-dropJ i (Append s x y) | i < jlSize x = Append s (dropJ i x) y
-                       | otherwise    = dropJ (i - jlSize x) y
+dropJ i (Append s x y) | i < xs    = Append s (dropJ i x) y
+                       | otherwise = dropJ (i - xs) y
+  where xs = getSize (size (tag x))
 
 takeJ :: (Sized b, Monoid b) => Int -> JoinList b a -> JoinList b a
 takeJ = undefined
