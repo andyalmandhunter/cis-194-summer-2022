@@ -53,8 +53,9 @@ dropJ _ Empty = Empty
 dropJ 0 jl    = jl
 dropJ i (Single s x) | i > 0     = Empty
                      | otherwise = Single s x
-dropJ i (Append s x y) | i < xs    = Append s (dropJ i x) y
-                       | otherwise = dropJ (i - xs) y
+dropJ i (Append s x y)
+  | i < xs    = let x' = dropJ i x in Append (tag x' <> tag y) x' y
+  | otherwise = dropJ (i - xs) y
   where xs = getSize (size (tag x))
 
 takeJ :: (Sized b, Monoid b) => Int -> JoinList b a -> JoinList b a
