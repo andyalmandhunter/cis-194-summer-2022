@@ -39,7 +39,6 @@ spec = do
 
     describe "indexJ" $ do
       it "finds a letter at the specified index" $ do
-        pending
         indexJ 0 jl `shouldBe` Just 's'
         indexJ 1 jl `shouldBe` Just 'u'
         indexJ 2 jl `shouldBe` Just 'p'
