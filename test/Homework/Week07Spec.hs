@@ -53,13 +53,10 @@ spec = do
 
     describe "takeJ" $ do
       it "returns the list when taking more than the list" $ do
-        pending
         jlToList (takeJ 4 jl) `shouldBe` jlToList jl
       it "takes the first element from a JoinList" $ do
-        pending
         jlToList (takeJ 1 jl) `shouldBe` ['s']
       it "takes the first n elements from a JoinList" $ do
-        pending
         jlToList (takeJ 2 jl) `shouldBe` ['s', 'u']
 
   describe "scoreLine" $ do

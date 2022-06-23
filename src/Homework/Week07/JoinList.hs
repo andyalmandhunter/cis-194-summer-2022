@@ -59,7 +59,13 @@ dropJ i (Append s x y)
   where xs = getSize (size (tag x))
 
 takeJ :: (Sized b, Monoid b) => Int -> JoinList b a -> JoinList b a
-takeJ = undefined
+takeJ _ Empty        = Empty
+takeJ i _ | i < 1    = Empty
+takeJ i (Single s x) = Single s x
+takeJ i (Append s x y)
+  | i < xs    = takeJ i x
+  | otherwise = let y' = takeJ (i - xs) y in Append (tag x <> tag y') x y'
+  where xs = getSize (size (tag x))
 
 scoreLine :: String -> JoinList Score String
 scoreLine = undefined
