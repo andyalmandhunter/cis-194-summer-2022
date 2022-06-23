@@ -68,7 +68,7 @@ takeJ i (Append s x y)
   where xSize = getSize (size (tag x))
 
 scoreLine :: String -> JoinList Score String
-scoreLine = undefined
+scoreLine x = Single (scoreString x) x
 
 -- Type class for data structures that can represent the text buffer
 -- of an editor.

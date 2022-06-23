@@ -61,16 +61,12 @@ spec = do
 
   describe "scoreLine" $ do
     it "scores a single word" $ do
-      pending
       tag (scoreLine "yay") `shouldBe` Score 9
     it "scores a with special characters" $ do
-      pending
       tag (scoreLine "haskell!") `shouldBe` Score 14
     it "scores words" $ do
-      pending
       tag (scoreLine "yay" +++ scoreLine "haskell!") `shouldBe` Score 23
     it "converts to joinLists" $ do
-      pending
       jlToList (scoreLine "yay" +++ scoreLine "haskell!")
         `shouldBe` ["yay", "haskell!"]
 
