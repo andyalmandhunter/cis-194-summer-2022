@@ -101,12 +101,10 @@ spec = do
         numLines testJoinList `shouldBe` 2
     describe "replaceLine" $ do
       it "replaces the first line" $ do
-        pending
         let updatedList = replaceLine 0 "e" testJoinList
         jlToList updatedList `shouldBe` ["e", "z"]
         tag updatedList `shouldBe` (Score 11, Size 2)
       it "replaces another line" $ do
-        pending
         let updatedList = replaceLine 1 "e" testJoinList
         jlToList updatedList `shouldBe` ["a", "e"]
         tag updatedList `shouldBe` (Score 2, Size 2)

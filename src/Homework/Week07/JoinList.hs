@@ -107,7 +107,14 @@ instance Buffer (JoinList (Score, Size) String) where
     -> String
     -> JoinList (Score, Size) String
     -> JoinList (Score, Size) String
-  replaceLine = undefined
+  replaceLine _ _ Empty = Empty
+  replaceLine i s (Single _ _)
+    | i == 0    = Single (scoreString s, Size $ length s) s
+    | otherwise = Empty
+  replaceLine 0 s (Append _ x y) =
+    let x' = replaceLine 0 s x in Append (tag x' <> tag y) x' y
+  replaceLine i s (Append _ x y) =
+    let y' = replaceLine (i - 1) s y in Append (tag x <> tag y') x y'
 
   -- | Compute the number of lines in the buffer.
   numLines :: JoinList (Score, Size) String -> Int
