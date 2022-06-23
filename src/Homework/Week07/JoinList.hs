@@ -34,6 +34,15 @@ tag (Append m _ _) = m
 (+++) :: Monoid m => JoinList m a -> JoinList m a -> JoinList m a
 x +++ y = Append (tag x <> tag y) x y
 
+instance Monoid m => Semigroup (JoinList m a) where
+  (<>) = (+++)
+
+instance Monoid m => Monoid (JoinList m a) where
+  mempty = Empty
+
+instance (Sized m, Monoid m) => Sized (JoinList m a) where
+  size = size . tag
+
 (!!?) :: [a] -> Int -> Maybe a
 [] !!? _        = Nothing
 _ !!? i | i < 0 = Nothing
@@ -51,26 +60,24 @@ indexJ i (Single _ x) | i == 0    = Just x
                       | otherwise = Nothing
 indexJ i (Append _ x y) | i < xSize = indexJ i x
                         | otherwise = indexJ (i - xSize) y
-  where xSize = getSize (size (tag x))
+  where xSize = getSize (size x)
 
 dropJ :: (Sized b, Monoid b) => Int -> JoinList b a -> JoinList b a
 dropJ _ Empty = Empty
 dropJ 0 jl    = jl
 dropJ i (Single s x) | i > 0     = Empty
                      | otherwise = Single s x
-dropJ i (Append s x y)
-  | i < xSize = let x' = dropJ i x in Append (tag x' <> tag y) x' y
-  | otherwise = dropJ (i - xSize) y
-  where xSize = getSize (size (tag x))
+dropJ i (Append s x y) | i < xSize = let x' = dropJ i x in x' <> y
+                       | otherwise = dropJ (i - xSize) y
+  where xSize = getSize (size x)
 
 takeJ :: (Sized b, Monoid b) => Int -> JoinList b a -> JoinList b a
 takeJ _ Empty        = Empty
 takeJ i _ | i < 1    = Empty
 takeJ i (Single s x) = Single s x
-takeJ i (Append s x y)
-  | i < xSize = takeJ i x
-  | otherwise = let y' = takeJ (i - xSize) y in Append (tag x <> tag y') x y'
-  where xSize = getSize (size (tag x))
+takeJ i (Append s x y) | i < xSize = takeJ i x
+                       | otherwise = let y' = takeJ (i - xSize) y in x <> y'
+  where xSize = getSize (size x)
 
 scoreLine :: String -> JoinList Score String
 scoreLine x = Single (scoreString x) x
@@ -81,11 +88,7 @@ instance Buffer (JoinList (Score, Size) String) where
 
   -- | Convert a buffer to a String.
   toString :: JoinList (Score, Size) String -> String
-  toString jl =
-    let go Empty          = []
-        go (Single _ x  ) = [x]
-        go (Append _ x y) = go x ++ go y
-    in  unlines $ go jl
+  toString = unlines . jlToList
 
   -- | Create a buffer from a String.
   fromString :: String -> JoinList (Score, Size) String
