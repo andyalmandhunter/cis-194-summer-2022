@@ -36,7 +36,9 @@ _ !!? i | i < 0 = Nothing
 (x : xs) !!? i  = xs !!? (i - 1)
 
 jlToList :: Monoid m => JoinList m a -> [a]
-jlToList = undefined
+jlToList Empty          = []
+jlToList (Single _ x  ) = [x]
+jlToList (Append _ x y) = jlToList x ++ jlToList y
 
 indexJ :: (Sized b, Monoid b) => Int -> JoinList b a -> Maybe a
 indexJ = undefined
