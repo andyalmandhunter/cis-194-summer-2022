@@ -118,7 +118,9 @@ instance Buffer (JoinList (Score, Size) String) where
 
   -- | Compute the number of lines in the buffer.
   numLines :: JoinList (Score, Size) String -> Int
-  numLines = undefined
+  numLines Empty          = 0
+  numLines (Single _ _  ) = 1
+  numLines (Append _ _ y) = 1 + numLines y
 
   -- | Compute the value of the buffer, i.e. the amount someone would
   --   be paid for publishing the contents of the buffer.

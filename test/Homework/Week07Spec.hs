@@ -97,7 +97,6 @@ spec = do
         line 1 testJoinList `shouldBe` Just "z"
     describe "numLines" $ do
       it "counts lines" $ do
-        pending
         numLines testJoinList `shouldBe` 2
     describe "replaceLine" $ do
       it "replaces the first line" $ do
