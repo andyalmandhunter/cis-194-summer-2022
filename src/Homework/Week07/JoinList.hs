@@ -82,6 +82,9 @@ takeJ i (Append s x y) | i < xSize = takeJ i x
 scoreLine :: String -> JoinList Score String
 scoreLine x = Single (scoreString x) x
 
+bufferLine :: String -> JoinList (Score, Size) String
+bufferLine x = Single (scoreString x, Size $ length x) x
+
 -- Type class for data structures that can represent the text buffer
 -- of an editor.
 instance Buffer (JoinList (Score, Size) String) where
@@ -92,11 +95,7 @@ instance Buffer (JoinList (Score, Size) String) where
 
   -- | Create a buffer from a String.
   fromString :: String -> JoinList (Score, Size) String
-  fromString = foldr f Empty . lines
-   where
-    f x acc =
-      let x' = Single (scoreString x, Size $ length x) x
-      in  Append (tag x' <> tag acc) x' acc
+  fromString = foldr (mappend . bufferLine) Empty . lines
 
   -- | Extract the nth line (0-indexed) from a buffer.  Return Nothing
   -- for out-of-bounds indices.
@@ -116,13 +115,10 @@ instance Buffer (JoinList (Score, Size) String) where
     -> JoinList (Score, Size) String
     -> JoinList (Score, Size) String
   replaceLine _ _ Empty = Empty
-  replaceLine i s (Single _ _)
-    | i == 0    = Single (scoreString s, Size $ length s) s
-    | otherwise = Empty
-  replaceLine 0 s (Append _ x y) =
-    let x' = replaceLine 0 s x in Append (tag x' <> tag y) x' y
-  replaceLine i s (Append _ x y) =
-    let y' = replaceLine (i - 1) s y in Append (tag x <> tag y') x y'
+  replaceLine i s (Single _ _) | i == 0    = bufferLine s
+                               | otherwise = Empty
+  replaceLine 0 s (Append _ x y) = let x' = replaceLine 0 s x in x' <> y
+  replaceLine i s (Append _ x y) = let y' = replaceLine (i - 1) s y in x <> y'
 
   -- | Compute the number of lines in the buffer.
   numLines :: JoinList (Score, Size) String -> Int
