@@ -7,14 +7,14 @@ module Homework.Week08.Assignment
   ) where
 
 import           Control.Applicative            ( Alternative((<|>), empty) )
-import           Homework.Week08.AParser        ( Parser )
+import           Homework.Week08.AParser        ( Parser(Parser) )
 
 -- #1
 first :: (a -> b) -> (a, c) -> (b, c)
-first = undefined
+first f (x, y) = (f x, y)
 
 instance Functor Parser where
-  fmap = undefined
+  fmap f (Parser g) = Parser (fmap (first f) . g)
 
 -- #2
 instance Applicative Parser where
