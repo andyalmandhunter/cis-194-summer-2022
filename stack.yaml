@@ -2,3 +2,5 @@ resolver:
   url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/19/10.yaml
 packages:
 - .
+extra-include-dirs:
+- /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/ffi
