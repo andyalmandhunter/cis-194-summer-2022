@@ -6,8 +6,8 @@ module Homework.Week08.Assignment
   , intOrUppercase
   ) where
 
-import           Control.Applicative
-import           Homework.Week08.AParser
+import           Control.Applicative            ( Alternative((<|>), empty) )
+import           Homework.Week08.AParser        ( Parser )
 
 -- #1
 first :: (a -> b) -> (a, c) -> (b, c)
