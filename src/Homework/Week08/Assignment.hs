@@ -7,7 +7,9 @@ module Homework.Week08.Assignment
   ) where
 
 import           Control.Applicative            ( Alternative((<|>), empty) )
-import           Homework.Week08.AParser        ( Parser(Parser) )
+import           Homework.Week08.AParser        ( Parser(Parser)
+                                                , char
+                                                )
 
 -- #1
 first :: (a -> b) -> (a, c) -> (b, c)
@@ -28,7 +30,7 @@ instance Applicative Parser where
 
 -- #3
 abParser :: Parser (Char, Char)
-abParser = undefined
+abParser = flip (,) <$> char 'b' <*> char 'a'
 
 abParser_ :: Parser ()
 abParser_ = undefined
