@@ -38,12 +38,12 @@ abParser_ :: Parser ()
 abParser_ = void $ char 'b' <* char 'a'
 
 intPair :: Parser [Integer]
-intPair = (\x y -> [y, x]) <$> posInt <* char ' ' <*> posInt
+intPair = f <$> posInt <* char ' ' <*> posInt where f x y = [y, x]
 
 -- #4
 instance Alternative Parser where
   empty = Parser (const Nothing)
-  (Parser a) <|> (Parser b) = Parser (\s -> a s <|> b s)
+  (Parser a) <|> (Parser b) = Parser f where f s = a s <|> b s
 
 -- #5
 intOrUppercase :: Parser ()
