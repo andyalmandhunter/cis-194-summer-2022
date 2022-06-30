@@ -19,7 +19,12 @@ instance Functor Parser where
 -- #2
 instance Applicative Parser where
   pure x = Parser (\s -> Just (x, s))
-  _ <*> _ = undefined
+  (Parser a) <*> (Parser b) =
+    let f Nothing       = Nothing
+        f (Just (x, s)) = g x (a s)
+        g _ Nothing       = Nothing
+        g x (Just (h, s)) = Just (h x, s)
+    in  Parser (f . b)
 
 -- #3
 abParser :: Parser (Char, Char)
