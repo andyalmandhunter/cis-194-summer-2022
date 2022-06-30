@@ -7,6 +7,7 @@ module Homework.Week08.Assignment
   ) where
 
 import           Control.Applicative            ( Alternative((<|>), empty) )
+import           Control.Monad                  ( void )
 import           Homework.Week08.AParser        ( Parser(Parser)
                                                 , char
                                                 )
@@ -33,7 +34,7 @@ abParser :: Parser (Char, Char)
 abParser = flip (,) <$> char 'b' <*> char 'a'
 
 abParser_ :: Parser ()
-abParser_ = undefined
+abParser_ = void $ char 'b' <* char 'a'
 
 intPair :: Parser [Integer]
 intPair = undefined
