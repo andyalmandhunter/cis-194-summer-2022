@@ -10,6 +10,7 @@ import           Control.Applicative            ( Alternative((<|>), empty) )
 import           Control.Monad                  ( void )
 import           Homework.Week08.AParser        ( Parser(Parser)
                                                 , char
+                                                , posInt
                                                 )
 
 -- #1
@@ -37,7 +38,7 @@ abParser_ :: Parser ()
 abParser_ = void $ char 'b' <* char 'a'
 
 intPair :: Parser [Integer]
-intPair = undefined
+intPair = (\x y -> [y, x]) <$> posInt <* char ' ' <*> posInt
 
 -- #4
 instance Alternative Parser where
