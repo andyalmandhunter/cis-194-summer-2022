@@ -8,9 +8,11 @@ module Homework.Week08.Assignment
 
 import           Control.Applicative            ( Alternative((<|>), empty) )
 import           Control.Monad                  ( void )
+import           Data.Char                      ( isUpper )
 import           Homework.Week08.AParser        ( Parser(Parser)
                                                 , char
                                                 , posInt
+                                                , satisfy
                                                 )
 
 -- #1
@@ -47,4 +49,4 @@ instance Alternative Parser where
 
 -- #5
 intOrUppercase :: Parser ()
-intOrUppercase = undefined
+intOrUppercase = void posInt <|> void (satisfy isUpper)

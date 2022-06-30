@@ -81,7 +81,6 @@ spec = do
 
   describe "intOrUppercase" $ do
     it "consumes an integer or an uppercase character" $ do
-      pending
       runParser intOrUppercase "342abcd" `shouldBe` Just ((), "abcd")
       runParser intOrUppercase "XYZ" `shouldBe` Just ((), "YZ")
       runParser intOrUppercase "foo" `shouldBe` Nothing
