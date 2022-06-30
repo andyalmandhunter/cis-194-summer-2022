@@ -67,7 +67,7 @@ dropJ _ Empty = Empty
 dropJ 0 jl    = jl
 dropJ i (Single s x) | i > 0     = Empty
                      | otherwise = Single s x
-dropJ i (Append s x y) | i < xSize = let x' = dropJ i x in x' <> y
+dropJ i (Append s x y) | i < xSize = dropJ i x <> y
                        | otherwise = dropJ (i - xSize) y
   where xSize = getSize (size x)
 
@@ -95,7 +95,7 @@ instance Buffer (JoinList (Score, Size) String) where
 
   -- | Create a buffer from a String.
   fromString :: String -> JoinList (Score, Size) String
-  fromString = foldr (mappend . bufferLine) Empty . lines
+  fromString = mconcat . map bufferLine . lines
 
   -- | Extract the nth line (0-indexed) from a buffer.  Return Nothing
   -- for out-of-bounds indices.
@@ -117,8 +117,8 @@ instance Buffer (JoinList (Score, Size) String) where
   replaceLine _ _ Empty = Empty
   replaceLine i s (Single _ _) | i == 0    = bufferLine s
                                | otherwise = Empty
-  replaceLine 0 s (Append _ x y) = let x' = replaceLine 0 s x in x' <> y
-  replaceLine i s (Append _ x y) = let y' = replaceLine (i - 1) s y in x <> y'
+  replaceLine 0 s (Append _ x y) = replaceLine 0 s x <> y
+  replaceLine i s (Append _ x y) = x <> replaceLine (i - 1) s y
 
   -- | Compute the number of lines in the buffer.
   numLines :: JoinList (Score, Size) String -> Int
