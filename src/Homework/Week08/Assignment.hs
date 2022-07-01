@@ -27,7 +27,7 @@ first' :: a -> (a -> b, c) -> (b, c)
 first' x (f, y) = (f x, y)
 
 instance Applicative Parser where
-  pure x = Parser (\s -> Just (x, s))
+  pure x = Parser f where f s = Just (x, s)
   (Parser a) <*> (Parser b) =
     let f Nothing       = Nothing
         f (Just (x, s)) = first' x <$> a s
