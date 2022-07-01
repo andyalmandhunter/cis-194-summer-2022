@@ -23,13 +23,14 @@ instance Functor Parser where
   fmap f (Parser g) = Parser (fmap (first f) . g)
 
 -- #2
+first' :: a -> (a -> b, c) -> (b, c)
+first' x (f, y) = (f x, y)
+
 instance Applicative Parser where
   pure x = Parser (\s -> Just (x, s))
   (Parser a) <*> (Parser b) =
     let f Nothing       = Nothing
-        f (Just (x, s)) = g x (a s)
-        g _ Nothing       = Nothing
-        g x (Just (h, s)) = Just (h x, s)
+        f (Just (x, s)) = first' x <$> a s
     in  Parser (f . b)
 
 -- #3
