@@ -33,7 +33,6 @@ spec = do
     describe "spaces" $ do
         it "parses a consecutive list of zero or more whitespace characters"
             $ do
-                  pending
                   runParser spaces "   a b c " `shouldBe` Just ("   ", "a b c ")
                   runParser spaces " \n \r \t a b c "
                       `shouldBe` Just (" \n \r \t ", "a b c ")
@@ -43,7 +42,6 @@ spec = do
     describe "ident" $ do
         it "parses an alphabetic char followed by zero or more alphanumerics"
             $ do
-                  pending
                   runParser ident "foobar baz"
                       `shouldBe` Just ("foobar", " baz")
                   runParser ident "foo33fA" `shouldBe` Just ("foo33fA", "")

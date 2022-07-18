@@ -11,6 +11,10 @@ module Homework.Week09.Assignment
 
 import           Control.Applicative
 
+import           Data.Char                      ( isAlpha
+                                                , isAlphaNum
+                                                , isSpace
+                                                )
 import           Homework.Week09.AParser
 
 -- #1
@@ -22,10 +26,10 @@ oneOrMore p = (:) <$> p <*> zeroOrMore p
 
 -- #2
 spaces :: Parser String
-spaces = undefined
+spaces = zeroOrMore (satisfy isSpace)
 
 ident :: Parser String
-ident = undefined
+ident = (:) <$> satisfy isAlpha <*> zeroOrMore (satisfy isAlphaNum)
 
 -- #3
 type Ident = String
