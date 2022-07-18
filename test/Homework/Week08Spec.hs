@@ -39,6 +39,9 @@ spec = do
         let p2 = (+) <$> posInt <* char ' ' <*> posInt
         runParser p2 "12 13a" `shouldBe` Just (25, "a")
 
+        let p3 = divMod <$> posInt <* char ' ' <*> posInt
+        runParser p3 "85 2" `shouldBe` Just ((42, 1), "")
+
   describe "abParser" $ do
     it "parses the characters 'a' and 'b' as a pair" $ do
       runParser abParser "abcdef" `shouldBe` Just (('a', 'b'), "cdef")
