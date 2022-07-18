@@ -1,5 +1,5 @@
 module Homework.Week08.Assignment
-  ( first
+  ( first'
   , abParser
   , abParser_
   , intPair
@@ -16,11 +16,8 @@ import           Homework.Week08.AParser        ( Parser(Parser)
                                                 )
 
 -- #1
-first :: (a -> b) -> (a, c) -> (b, c)
-first f (x, y) = (f x, y)
-
 instance Functor Parser where
-  fmap f (Parser g) = Parser (fmap (first f) . g)
+  fmap f = (pure f <*>)
 
 -- #2
 first' :: a -> (a -> b, c) -> (b, c)
