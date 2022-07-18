@@ -1,5 +1,5 @@
 module Homework.Week08.Assignment
-  ( first'
+  ( first
   , abParser
   , abParser_
   , intPair
@@ -20,25 +20,25 @@ instance Functor Parser where
   fmap f = (pure f <*>)
 
 -- #2
-first' :: a -> (a -> b, c) -> (b, c)
-first' x (f, y) = (f x, y)
+first :: (a -> b) -> (a, c) -> (b, c)
+first f (x, y) = (f x, y)
 
 instance Applicative Parser where
   pure x = Parser f where f s = Just (x, s)
   (Parser a) <*> (Parser b) =
     let f Nothing       = Nothing
-        f (Just (x, s)) = first' x <$> a s
-    in  Parser (f . b)
+        f (Just (g, s)) = first g <$> b s
+    in  Parser (f . a)
 
 -- #3
 abParser :: Parser (Char, Char)
-abParser = flip (,) <$> char 'b' <*> char 'a'
+abParser = (,) <$> char 'a' <*> char 'b'
 
 abParser_ :: Parser ()
-abParser_ = void $ char 'b' <* char 'a'
+abParser_ = void $ char 'a' <* char 'b'
 
 intPair :: Parser [Integer]
-intPair = f <$> posInt <* char ' ' <*> posInt where f x y = [y, x]
+intPair = f <$> posInt <* char ' ' <*> posInt where f x y = [x, y]
 
 -- #4
 instance Alternative Parser where
