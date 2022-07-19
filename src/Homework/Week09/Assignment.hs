@@ -9,13 +9,17 @@ module Homework.Week09.Assignment
   , SExpr(..)
   ) where
 
-import           Control.Applicative
+import           Control.Applicative            ( Alternative((<|>)) )
 
 import           Data.Char                      ( isAlpha
                                                 , isAlphaNum
                                                 , isSpace
                                                 )
-import           Homework.Week09.AParser
+import           Homework.Week09.AParser        ( Parser
+                                                , char
+                                                , posInt
+                                                , satisfy
+                                                )
 
 -- #1
 zeroOrMore :: Parser a -> Parser [a]
@@ -42,5 +46,11 @@ data SExpr = A Atom
            | Comb [SExpr]
   deriving (Eq, Show)
 
+parseAtom :: Parser Atom
+parseAtom = (N <$> posInt) <|> (I <$> ident)
+
+parseComb :: Parser [SExpr]
+parseComb = char '(' *> oneOrMore parseSExpr <* char ')'
+
 parseSExpr :: Parser SExpr
-parseSExpr = undefined
+parseSExpr = spaces *> ((A <$> parseAtom) <|> (Comb <$> parseComb)) <* spaces
