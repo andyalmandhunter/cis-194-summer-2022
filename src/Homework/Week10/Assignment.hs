@@ -1,6 +1,11 @@
 module Homework.Week10.Assignment
-      ( treeFromList
+      ( quickCheck
+      , prop_labelTree
+      , prop_labelTreeIdempotent
+      , prop_lengthToList
+      , prop_sizeLabelTree
       , sample
+      , treeFromList
       ) where
 
 import           Control.Monad                  ( replicateM )
@@ -10,6 +15,7 @@ import           Homework.Week10.Support        ( Tree(..)
 import           Test.QuickCheck                ( Arbitrary(arbitrary)
                                                 , Gen
                                                 , choose
+                                                , quickCheck
                                                 , sample
                                                 , sized
                                                 )
@@ -46,17 +52,19 @@ toList (Node x y) = toList x ++ toList y
 
 -- The length of the list produced by toList is the size of the given tree.
 prop_lengthToList :: Tree Integer -> Bool
-prop_lengthToList = undefined
+prop_lengthToList t = length (toList t) == size t
 
 -- labelTree does not change the size of the tree.
 prop_sizeLabelTree :: Tree Integer -> Bool
-prop_sizeLabelTree = undefined
+prop_sizeLabelTree t = size (labelTree t) == size t
 
 -- For every tree t, toList (labelTree t) is the expected list.
 -- Hint: [0..n] denotes the list of numbers from 0 to n, inclusively.
 prop_labelTree :: Tree Integer -> Bool
-prop_labelTree = undefined
+prop_labelTree t = toList (labelTree t) == [0 .. n]
+      where n = toInteger (size t) - 1
 
 -- Applying labelTree to a list twice does yield the same list as applying it once.
 prop_labelTreeIdempotent :: Tree Integer -> Bool
-prop_labelTreeIdempotent = undefined
+prop_labelTreeIdempotent t =
+      toList (labelTree t) == toList (labelTree (labelTree t))
