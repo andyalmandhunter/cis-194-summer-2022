@@ -35,10 +35,12 @@ instance Arbitrary a => Arbitrary (Tree a) where
 -- Exercise 2
 
 size :: Tree a -> Int
-size = undefined
+size (Leaf _  ) = 1
+size (Node a b) = size a + size b
 
 toList :: Tree a -> [a]
-toList = undefined
+toList (Leaf x  ) = [x]
+toList (Node x y) = toList x ++ toList y
 
 -- Exercise 3
 
