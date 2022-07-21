@@ -1,14 +1,36 @@
-module Homework.Week10.Assignment where
+module Homework.Week10.Assignment
+      ( treeFromList
+      , sample
+      ) where
 
+import           Control.Monad                  ( replicateM )
 import           Homework.Week10.Support        ( Tree(..)
                                                 , labelTree
                                                 )
-import           Test.QuickCheck
+import           Test.QuickCheck                ( Arbitrary(arbitrary)
+                                                , Gen
+                                                , choose
+                                                , sample
+                                                , sized
+                                                )
 
 -- Exercise 1
 
+insert :: a -> Tree a -> Tree a
+insert x = Node (Leaf x)
+
+treeFromList :: [a] -> Tree a
+treeFromList []       = error "List must not be empty"
+treeFromList (x : xs) = foldr insert (Leaf x) xs
+
+genTree :: Arbitrary a => Gen (Tree a)
+genTree = sized $ \size -> do
+      len  <- choose (1, size)
+      vals <- replicateM len arbitrary
+      return $ treeFromList vals
+
 instance Arbitrary a => Arbitrary (Tree a) where
-    arbitrary = undefined
+      arbitrary = genTree
 
 -- Exercise 2
 
