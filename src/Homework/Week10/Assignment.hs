@@ -25,7 +25,7 @@ treeFromList (x : xs) = foldr insert (Leaf x) xs
 
 genTree :: Arbitrary a => Gen (Tree a)
 genTree = sized $ \size -> do
-      len  <- choose (1, size)
+      len  <- choose (1, size + 1)
       vals <- replicateM len arbitrary
       return $ treeFromList vals
 
