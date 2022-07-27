@@ -1,3 +1,5 @@
+{-# LANGUAGE LambdaCase #-}
+
 module Homework.Week11Spec
   ( main
   , spec
@@ -41,7 +43,7 @@ prop_subtractsTwoFromBattle field = do
 prop_findsWinner :: Battlefield -> IO ()
 prop_findsWinner field = do
   newField <- evalRandIO (invade field)
-  newField `shouldSatisfy` \field -> case field of
+  newField `shouldSatisfy` \case
     Battlefield _ 0 -> True
     Battlefield 1 _ -> True
     _               -> False
