@@ -2,7 +2,12 @@
 
 module Homework.Week11.Assignment where
 
-import           Control.Monad.Random
+import           Control.Monad.Random           ( MonadRandom(getRandom)
+                                                , Rand
+                                                , Random(random, randomR)
+                                                , StdGen
+                                                , replicateM
+                                                )
 
 ------------------------------------------------------------
 -- Die values
@@ -32,8 +37,15 @@ data Battlefield = Battlefield
   deriving Show
 
 -- #2 (there is no assignment #1, really)
+matchRolls :: [DieValue] -> [DieValue] -> (Int, Int)
+matchRolls = undefined
+
 battle :: Battlefield -> Rand StdGen Battlefield
-battle = undefined
+battle bf = do
+  a <- replicateM (attackers bf - 1) die
+  d <- replicateM (defenders bf) die
+  let (x, y) = matchRolls a d
+  return $ Battlefield (attackers bf - x) (defenders bf - y)
 
 -- #3
 invade :: Battlefield -> Rand StdGen Battlefield
