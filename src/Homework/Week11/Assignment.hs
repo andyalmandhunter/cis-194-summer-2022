@@ -40,7 +40,7 @@ defend :: (DieValue, DieValue) -> Bool
 defend (DV x, DV y) = y >= x
 
 wins :: ((DieValue, DieValue) -> Bool) -> [DieValue] -> [DieValue] -> Int
-wins cmp xs ys = length $ filter cmp $ zip (sort xs) (sort ys)
+wins p xs ys = length $ filter p $ zip (sort xs) (sort ys)
 
 battle :: Battlefield -> Rand StdGen Battlefield
 battle bf = do
