@@ -50,8 +50,16 @@ battle bf = do
                        (defenders bf - wins defend a d)
 
 -- #3
+won :: Battlefield -> Bool
+won (Battlefield _ d) = d == 0
+
+lost :: Battlefield -> Bool
+lost (Battlefield a _) = a < 2
+
 invade :: Battlefield -> Rand StdGen Battlefield
-invade = undefined
+invade bf = do
+  bf' <- battle bf
+  if won bf' || lost bf' then return bf' else invade bf'
 
 -- #4
 successProb :: Battlefield -> Rand StdGen Double
