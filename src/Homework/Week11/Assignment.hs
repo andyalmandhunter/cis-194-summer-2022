@@ -43,21 +43,21 @@ data Battlefield = Battlefield
   deriving Show
 
 -- #2 (there is no assignment #1, really)
-attack :: (DieValue, DieValue) -> Bool
-attack (DV x, DV y) = x > y
+attacker :: (DieValue, DieValue) -> Bool
+attacker (DV x, DV y) = x > y
 
-defend :: (DieValue, DieValue) -> Bool
-defend (DV x, DV y) = y >= x
+defender :: (DieValue, DieValue) -> Bool
+defender (DV x, DV y) = y >= x
 
 wins :: ((DieValue, DieValue) -> Bool) -> [DieValue] -> [DieValue] -> Int
 wins p xs ys = length $ filter p $ zip xs ys
 
 battle :: Battlefield -> Rand StdGen Battlefield
-battle bf = do
-  a <- sort <$> replicateM (min 3 (attackers bf - 1)) die
-  d <- sort <$> replicateM (min 2 (defenders bf)) die
-  return $ Battlefield (attackers bf - wins attack a d)
-                       (defenders bf - wins defend a d)
+battle (Battlefield a d) = do
+  aRoll <- sort <$> replicateM (min 3 (a - 1)) die
+  dRoll <- sort <$> replicateM (min 2 d) die
+  return $ Battlefield (a - wins attacker aRoll dRoll)
+                       (d - wins defender aRoll dRoll)
 
 -- #3
 won :: Battlefield -> Bool
