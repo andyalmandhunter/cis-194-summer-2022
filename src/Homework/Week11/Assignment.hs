@@ -50,12 +50,12 @@ defend :: (DieValue, DieValue) -> Bool
 defend (DV x, DV y) = y >= x
 
 wins :: ((DieValue, DieValue) -> Bool) -> [DieValue] -> [DieValue] -> Int
-wins p xs ys = length $ filter p $ zip (sort xs) (sort ys)
+wins p xs ys = length $ filter p $ zip xs ys
 
 battle :: Battlefield -> Rand StdGen Battlefield
 battle bf = do
-  a <- replicateM (min 3 (attackers bf - 1)) die
-  d <- replicateM (min 2 (defenders bf)) die
+  a <- sort <$> replicateM (min 3 (attackers bf - 1)) die
+  d <- sort <$> replicateM (min 2 (defenders bf)) die
   return $ Battlefield (attackers bf - wins attack a d)
                        (defenders bf - wins defend a d)
 
