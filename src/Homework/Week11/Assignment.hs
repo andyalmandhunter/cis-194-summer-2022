@@ -62,8 +62,14 @@ invade bf = do
   if won bf' || lost bf' then return bf' else invade bf'
 
 -- #4
+fracSuccess :: [Battlefield] -> Double
+fracSuccess bfs =
+  fromIntegral (length $ filter won bfs) / fromIntegral (length bfs)
+
 successProb :: Battlefield -> Rand StdGen Double
-successProb = undefined
+successProb bf = do
+  bfs <- replicateM 1000 (invade bf)
+  return $ fracSuccess bfs
 
 -- #5
 exactSuccessProb :: Battlefield -> Double

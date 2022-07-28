@@ -61,11 +61,9 @@ spec = do
 
   describe "successProb" $ do
     it "finds a low probability of success" $ do
-      pending
       newField <- evalRandIO (successProb (Battlefield 2 20))
       newField `shouldSatisfy` (0.1 >)
 
     it "finds a high probability of success" $ do
-      pending
       newField <- evalRandIO (successProb (Battlefield 20 2))
       newField `shouldSatisfy` (0.9 <)
