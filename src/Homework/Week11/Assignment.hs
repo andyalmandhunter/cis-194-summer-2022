@@ -1,8 +1,18 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
-module Homework.Week11.Assignment where
+module Homework.Week11.Assignment
+  ( Battlefield(..)
+  , battle
+  , invade
+  , successProb
+  ) where
 
-import           Control.Monad.Random
+import           Control.Monad.Random           ( MonadRandom(getRandom)
+                                                , Rand
+                                                , Random(random, randomR)
+                                                , StdGen
+                                                , replicateM
+                                                )
 import           Data.List                      ( sort )
 
 ------------------------------------------------------------

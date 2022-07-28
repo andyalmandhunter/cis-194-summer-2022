@@ -5,12 +5,25 @@ module Homework.Week11Spec
   , spec
   ) where
 
-import           Test.Hspec
+import           Test.Hspec                     ( Spec
+                                                , describe
+                                                , hspec
+                                                , it
+                                                , shouldBe
+                                                , shouldSatisfy
+                                                )
 import           Test.Hspec.QuickCheck          ( prop )
-import           Test.QuickCheck
+import           Test.QuickCheck                ( Arbitrary(arbitrary)
+                                                , choose
+                                                , sized
+                                                )
 
-import           Control.Monad.Random
-import           Homework.Week11.Assignment
+import           Control.Monad.Random           ( evalRandIO )
+import           Homework.Week11.Assignment     ( Battlefield(..)
+                                                , battle
+                                                , invade
+                                                , successProb
+                                                )
 
 instance Arbitrary Battlefield where
   arbitrary = sized $ \size -> do
