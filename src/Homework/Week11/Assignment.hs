@@ -37,15 +37,14 @@ data Battlefield = Battlefield
   deriving Show
 
 -- #2 (there is no assignment #1, really)
-matchRolls :: [DieValue] -> [DieValue] -> (Int, Int)
-matchRolls = undefined
+wins :: [DieValue] -> [DieValue] -> Int
+wins = undefined
 
 battle :: Battlefield -> Rand StdGen Battlefield
 battle bf = do
   a <- replicateM (attackers bf - 1) die
   d <- replicateM (defenders bf) die
-  let (x, y) = matchRolls a d
-  return $ Battlefield (attackers bf - x) (defenders bf - y)
+  return $ Battlefield (attackers bf - wins a d) (defenders bf - wins d a)
 
 -- #3
 invade :: Battlefield -> Rand StdGen Battlefield
