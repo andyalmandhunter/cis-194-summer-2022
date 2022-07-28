@@ -2,12 +2,8 @@
 
 module Homework.Week11.Assignment where
 
-import           Control.Monad.Random           ( MonadRandom(getRandom)
-                                                , Rand
-                                                , Random(random, randomR)
-                                                , StdGen
-                                                , replicateM
-                                                )
+import           Control.Monad.Random
+import           Data.List                      ( sort )
 
 ------------------------------------------------------------
 -- Die values
@@ -37,14 +33,21 @@ data Battlefield = Battlefield
   deriving Show
 
 -- #2 (there is no assignment #1, really)
-wins :: [DieValue] -> [DieValue] -> Int
-wins = undefined
+attack :: (DieValue, DieValue) -> Bool
+attack (DV x, DV y) = x > y
+
+defend :: (DieValue, DieValue) -> Bool
+defend (DV x, DV y) = y >= x
+
+wins :: ((DieValue, DieValue) -> Bool) -> [DieValue] -> [DieValue] -> Int
+wins cmp xs ys = length $ filter cmp $ zip (sort xs) (sort ys)
 
 battle :: Battlefield -> Rand StdGen Battlefield
 battle bf = do
-  a <- replicateM (attackers bf - 1) die
-  d <- replicateM (defenders bf) die
-  return $ Battlefield (attackers bf - wins a d) (defenders bf - wins d a)
+  a <- replicateM (min 3 (attackers bf - 1)) die
+  d <- replicateM (min 2 (defenders bf)) die
+  return $ Battlefield (attackers bf - wins attack a d)
+                       (defenders bf - wins defend a d)
 
 -- #3
 invade :: Battlefield -> Rand StdGen Battlefield

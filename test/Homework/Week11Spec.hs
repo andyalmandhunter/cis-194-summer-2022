@@ -54,9 +54,7 @@ main = hspec spec
 spec :: Spec
 spec = do
   describe "battle" $ do
-    -- prop "subtracts two units from the battle" prop_subtractsTwoFromBattle
-    it "is pending" $ do
-      pending
+    prop "subtracts two units from the battle" prop_subtractsTwoFromBattle
 
   describe "invade" $ do
     -- prop "produces a winner" prop_findsWinner
